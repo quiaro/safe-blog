@@ -4,26 +4,12 @@ import webapp2
 import jinja2
 import hashlib
 
+from auth import Auth
+# from blog import Blog
+
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
                                autoescape=True)
-
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PASS_RE = re.compile(r"^.{3,20}$")
-EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-
-
-def valid_username(username):
-    return username and USER_RE.match(username)
-
-
-def valid_password(password):
-    return password and PASS_RE.match(password)
-
-
-def valid_email(email):
-    return not email or EMAIL_RE.match(email)
-
 
 class Handler(webapp2.RequestHandler):
 
@@ -48,10 +34,20 @@ class Index(Handler):
 
 class Login(Handler):
     def get(self):
-        self.render('login.html')
+        self.render('login.html', login_url=Auth.login_url, signup_url=Auth.signup_url)
 
 
-app = webapp2.WSGIApplication([
+config = {
+    # 'default_route': Blog.get_default_route()
+}
+
+
+# Build list of all routes in the app. Ensure the index (catch-all) route is
+# the last one in the list
+routes = Auth.get_routes()
+routes += [
     webapp2.Route(r'/login', handler=Login, name='login'),
     webapp2.Route(r'/', handler=Index, name='index'),
-], debug=True)
+]
+
+app = webapp2.WSGIApplication(routes = routes, debug=True, config=config)
