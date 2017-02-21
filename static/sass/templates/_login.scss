@@ -97,8 +97,35 @@
             text-align: center;
             letter-spacing: 2px;
 
-            @media only screen and (min-width: 700px) {
+            @media only screen and (min-width: $screen-sm) {
                 font-size: 2.6em;
+            }
+        }
+    }
+
+    .panel-body {
+        h3 {
+            font-family: $title-font;
+            font-weight: normal;
+        }
+        .row {
+            .partials-login, .partials-signup {
+                padding: 0 10px 20px;
+
+                .intro {
+                    margin: 15px 0;
+                }
+            }
+
+            > :last-child {
+                border-top: 1px solid $subtle-gray;
+            }
+
+            @media only screen and (min-width: $screen-sm) {
+                > :last-child {
+                    border-top: 0 none;
+                    border-left: 1px solid $subtle-gray;
+                }
             }
         }
     }

@@ -1,16 +1,18 @@
 <div class='partials-login'>
-    <div class='error'>{{error}}</div>
+    <h3>Registered User</h3>
+    <p class="intro">Welcome back! Please sign in with your credentials.</p>
 
-    <form method="post">
-        <label>
-          <span>Username</span>
-          <input type="text" name="username" />
-        </label>
+    <form id="login-form" method="post">
+        <div class='error'>{{error}}</div>
 
-        <label>
-          <span>Password</span>
-          <input type="password" name="password" />
-        </label>
-        <input type='submit' />
+        <div class="form-group">
+            <label for="login-username">Username</label>
+            <input type="text" class="form-control" name="login-username" id="login-username">
+        </div>
+        <div class="form-group">
+            <label for="login-password">Password</label>
+            <input type="password" class="form-control" name="login-password" id="login-password">
+        </div>
+        <input class="btn btn-primary" type='submit' value="Sign In" />
     </form>
 </div>

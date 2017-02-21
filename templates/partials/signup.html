@@ -1,16 +1,26 @@
 <div class='partials-signup'>
-    <div class='error'>{{error}}</div>
+    <h3>New User</h3>
+    <p class="intro">Please sign up to create a new account.</p>
 
-    <form method="post">
-        <label>
-          <span>Username</span>
-          <input type="text" name="username" />
-        </label>
+    <form id="signup-form" method="post">
+        <div class='error'>{{error}}</div>
 
-        <label>
-          <span>Password</span>
-          <input type="password" name="password" />
-        </label>
-        <input type='submit' />
+        <div class="form-group">
+            <label for="signup-username">Username</label>
+            <input type="text" class="form-control" name="signup-username" id="signup-username">
+        </div>
+        <div class="form-group">
+            <label for="signup-password">Password</label>
+            <input type="password" class="form-control" name="signup-password" id="signup-password">
+        </div>
+        <div class="form-group">
+            <label for="signup-verify">Verify Password</label>
+            <input type="password" class="form-control" name="signup-verify" id="signup-verify">
+        </div>
+        <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" class="form-control" name="signup-email" id="signup-email">
+        </div>
+        <input class="btn btn-primary" type='submit' value="Sign Up" />
     </form>
 </div>
