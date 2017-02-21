@@ -21,6 +21,8 @@ $font-title-medium: 1.5em;
 $font-title-big: 1.7em;
 
 /* STYLESHEETS */
+@import "../bootstrap/stylesheets/_bootstrap.scss";
+
 @import "common";
 @import "header";
 @import "footer";
