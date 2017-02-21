@@ -1,0 +1,105 @@
+#login {
+    margin-top: 10vh;
+
+    .panel-heading {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            flex: 1;
+            margin: 0;
+            position: relative;
+
+            dt {
+                font-weight: normal;
+                margin: 15px 0 5px 3vw;
+                display: inline-block;
+
+                abbr[title] {
+                    font-family: $logo-font;
+                    font-size: 15vw;
+                    line-height: 1;
+                    // Remove default styling for abbr tag
+                    border-bottom: 0 none !important;
+                    cursor: inherit !important;
+                    text-decoration: none !important;
+                }
+
+                i:last-of-type {
+                    position: relative;
+                    left: -8vw;
+                    top: 0;
+                }
+            }
+
+            dd {
+                display: inline-block;
+                $base-font-size: 4vw;
+
+                b {
+                    font-weight: normal;
+                }
+
+                b:first-of-type {
+                    font-family: $logo-font;
+                    font-size: $base-font-size;
+                    position: absolute;
+                    top: 50%;
+                    left: 18vw;
+                    margin-top: -$base-font-size;
+                }
+
+                b:last-of-type {
+                    font-family: $title-font;
+                    font-size: $base-font-size - 1vw;
+                    position: absolute;
+                    top: 70%;
+                    left: 21vw;
+                    color: $primary-orange;
+                    margin-top: -$base-font-size;
+                }
+            }
+            @media only screen and (min-width: 700px) {
+                dt {
+                    margin-left: 30px;
+
+                    abbr[title] {
+                        font-size: 105px;
+                    }
+
+                    i:last-of-type {
+                        left: -55px;
+                    }
+                }
+
+                dd {
+                    b:first-of-type {
+                        margin-top: -28px;
+                        font-size: 28px;
+                        top: 62px;
+                        left: 136px;
+                    }
+
+                    b:last-of-type {
+                        margin-top: -28px;
+                        font-size: 22px;
+                        top: 87px;
+                        left: 157px;
+                    }
+                }
+            }
+        }
+
+        .title {
+            flex: 2;
+            font-family: $title-font;
+            font-size: 6vw;
+            text-align: center;
+            letter-spacing: 2px;
+
+            @media only screen and (min-width: 700px) {
+                font-size: 2.6em;
+            }
+        }
+    }
+}

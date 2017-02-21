@@ -1,3 +1,9 @@
 body {
     background-color: $content-bg;
 }
+
+header {
+    dt {
+        font-weight: normal;
+    }
+}

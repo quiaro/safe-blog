@@ -5510,6 +5510,9 @@ button.close {
 body {
   background-color: white; }
 
+header dt {
+  font-weight: normal; }
+
 /* ============================================================
    Header includes the logo, title and social media links
    ============================================================ */
@@ -5675,3 +5678,77 @@ footer {
     footer {
       padding: 15px 30px;
       z-index: 0; } }
+
+#login {
+  margin-top: 10vh; }
+  #login .panel-heading {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center; }
+    #login .panel-heading .logo {
+      -ms-flex: 1;
+          flex: 1;
+      margin: 0;
+      position: relative; }
+      #login .panel-heading .logo dt {
+        font-weight: normal;
+        margin: 15px 0 5px 3vw;
+        display: inline-block; }
+        #login .panel-heading .logo dt abbr[title] {
+          font-family: "Allura", cursive;
+          font-size: 15vw;
+          line-height: 1;
+          border-bottom: 0 none !important;
+          cursor: inherit !important;
+          text-decoration: none !important; }
+        #login .panel-heading .logo dt i:last-of-type {
+          position: relative;
+          left: -8vw;
+          top: 0; }
+      #login .panel-heading .logo dd {
+        display: inline-block; }
+        #login .panel-heading .logo dd b {
+          font-weight: normal; }
+        #login .panel-heading .logo dd b:first-of-type {
+          font-family: "Allura", cursive;
+          font-size: 4vw;
+          position: absolute;
+          top: 50%;
+          left: 18vw;
+          margin-top: -4vw; }
+        #login .panel-heading .logo dd b:last-of-type {
+          font-family: "Ovo", serif;
+          font-size: 3vw;
+          position: absolute;
+          top: 70%;
+          left: 21vw;
+          color: #de822b;
+          margin-top: -4vw; }
+      @media only screen and (min-width: 700px) {
+        #login .panel-heading .logo dt {
+          margin-left: 30px; }
+          #login .panel-heading .logo dt abbr[title] {
+            font-size: 105px; }
+          #login .panel-heading .logo dt i:last-of-type {
+            left: -55px; }
+        #login .panel-heading .logo dd b:first-of-type {
+          margin-top: -28px;
+          font-size: 28px;
+          top: 62px;
+          left: 136px; }
+        #login .panel-heading .logo dd b:last-of-type {
+          margin-top: -28px;
+          font-size: 22px;
+          top: 87px;
+          left: 157px; } }
+    #login .panel-heading .title {
+      -ms-flex: 2;
+          flex: 2;
+      font-family: "Ovo", serif;
+      font-size: 6vw;
+      text-align: center;
+      letter-spacing: 2px; }
+      @media only screen and (min-width: 700px) {
+        #login .panel-heading .title {
+          font-size: 2.6em; } }
