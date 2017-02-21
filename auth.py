@@ -36,12 +36,57 @@ class Auth(webapp2.RequestHandler):
         """
             Process any incoming login requests
         """
-        # print('param1 %s' % param1)
         self.response.out.write('Processing login ...')
 
     def signup(self):
         """
             Process any incoming sign up requests
         """
-        # print('param1 %s' % param1)
+        username = self.request.get('signup-username')
+        password = self.request.get('signup-password')
+        verify = self.request.get('signup-verify')
+        email = self.request.get('signup-email')
+
+        params = dict(username=username,
+                      email=email,
+                      errors={})
+
+        # Check if the user already exists
+        user = User.get_by_key_name(username)
+
+        if user:
+            params['errors']['username'] = "Username already exists."
+
+        if not valid_username(username):
+            params['errors']['username'] = "Invalid username."
+
+        if not valid_password(password):
+            params['errors']['password'] = "Invalid password."
+
+        elif password != verify:
+            params['errors']['verify'] = "Your passwords didn't match."
+
+        if not valid_email(email):
+            params['errors']['email'] = "Invalid email."
+
+        if len(params['errors'].keys()) != 0:
+            self.render('signup.html', **params)
+        else:
+            pwdHash = make_pwd_hash(username, password)
+
+            # Create user (save pwdHash instead of password)
+            user = User(key_name=username,
+                        username=username,
+                        password=pwdHash)
+            try:
+                user.put()
+            except TransactionFailedError:
+                errors[
+                    'general'] = 'Unable to save entity. Please try again or contact your system administrator.'
+                self.render('signup.html', **params)
+                return
+
+            self.login(username)
+
+
         self.response.out.write('Processing sign up ...')

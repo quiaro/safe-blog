@@ -5,7 +5,7 @@ import jinja2
 import hashlib
 
 from auth import Auth
-# from blog import Blog
+from blog import Blog
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_dir),
@@ -37,16 +37,17 @@ class Login(Handler):
         self.render('login.html', login_url=Auth.login_url, signup_url=Auth.signup_url)
 
 
-config = {
-    # 'default_route': Blog.get_default_route()
-}
+config = dict(
+    default_route = Blog.get_default_route(),
+    login_route   = 'login'
+)
 
 
 # Build list of all routes in the app. Ensure the index (catch-all) route is
 # the last one in the list
 routes = Auth.get_routes()
 routes += [
-    webapp2.Route(r'/login', handler=Login, name='login'),
+    webapp2.Route(r'/login', handler=Login, name=config['login_route']),
     webapp2.Route(r'/', handler=Index, name='index'),
 ]
 
