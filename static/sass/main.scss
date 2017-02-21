@@ -1,0 +1,26 @@
+/* FONTS */
+@import url( "https://fonts.googleapis.com/css?family=Ovo|Allura");
+$title-font: "Ovo", serif;
+$primary-font: "Arial", sans-serif;
+$logo-font: "Allura", cursive;
+
+/* COLORS */
+$content-bg: white;
+$primary-red: hsla(10, 79%, 52%, 1);
+$primary-orange: hsla(29, 73%, 52%, 1);
+$primary-gray: #353535;
+$subtle-gray: #b5b5b5;
+$text-gray: #515151;
+$subtle-white: #f1f1f1;
+$footer-gray: #5f5f5f;
+$backdrop: hsla(10, 59%, 52%, 1);
+
+/* LAYOUT */
+$font-title-small: 1.2em;
+$font-title-medium: 1.5em;
+$font-title-big: 1.7em;
+
+/* STYLESHEETS */
+@import "common";
+@import "header";
+@import "footer";

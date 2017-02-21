@@ -6,8 +6,12 @@ handlers:
 - url: /static
   static_dir: static
 
+- url: /favicon.ico
+  static_files: static/favicons/favicon.ico
+  upload: static/favicons/favicon.ico
+
 - url: /.*
-  script: main.app  
+  script: main.app
 
 libraries:
 - name: jinja2

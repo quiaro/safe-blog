@@ -1,0 +1,17 @@
+{
+  "name": "safe-blog",
+  "version": "1.0.0",
+  "description": "Blogging platform for authorized users only",
+  "main": "gulpfile.js",
+  "scripts": {
+    "dev": "gulp"
+  },
+  "keywords": [],
+  "author": "David Quirós",
+  "license": "cc-by-nc-nd",
+  "devDependencies": {
+    "gulp": "3.9.0",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-sass": "^2.3.2"
+  }
+}

@@ -1,0 +1,294 @@
+/* FONTS */
+@import url("https://fonts.googleapis.com/css?family=Ovo|Allura");
+/* COLORS */
+/* LAYOUT */
+/* STYLESHEETS */
+/*! HTML5 Boilerplate v5.3.0 | MIT License | https://html5boilerplate.com/ */
+/*
+ * What follows is the result of much research on cross-browser styling.
+ * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
+ * Kroc Camen, and the H5BP dev community and team.
+ */
+/* ==========================================================================
+   Base styles: opinionated defaults
+   ========================================================================== */
+html {
+  color: #222;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  line-height: 1.4; }
+
+/*
+ * Remove text-shadow in selection highlight:
+ * https://twitter.com/miketaylr/status/12228805301
+ *
+ * These selection rule sets have to be separate.
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none; }
+
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0; }
+
+/*
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers:
+ * https://github.com/h5bp/html5-boilerplate/issues/440
+ */
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle; }
+
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+  resize: vertical; }
+
+/* ==========================================================================
+   Helper classes
+   ========================================================================== */
+/*
+ * Hide visually and from screen readers
+ */
+.hidden {
+  display: none !important; }
+
+/*
+ * Hide only visually, but have it available for screen readers:
+ * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+ */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
+/*
+ * Extends the .visuallyhidden class to allow the element
+ * to be focusable when navigated to via the keyboard:
+ * https://www.drupal.org/node/897638
+ */
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto; }
+
+/*
+ * Hide visually and from screen readers, but maintain layout
+ */
+.invisible {
+  visibility: hidden; }
+
+::-webkit-scrollbar {
+  display: none; }
+
+body {
+  margin: 0;
+  background-color: white; }
+
+button:hover {
+  opacity: 1; }
+
+button:active, button:focus {
+  outline: 0; }
+
+/* ============================================================
+   Header includes the logo, title and social media links
+   ============================================================ */
+header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  z-index: 1;
+  position: relative;
+  background-color: white; }
+  header .logo {
+    width: 38vw;
+    margin: 0;
+    position: relative; }
+    header .logo dt {
+      margin: 15px 0 5px 3vw;
+      display: inline-block; }
+      header .logo dt abbr[title] {
+        font-family: "Allura", cursive;
+        font-size: 15vw;
+        line-height: 1;
+        border-bottom: 0 none !important;
+        cursor: inherit !important;
+        text-decoration: none !important; }
+      header .logo dt i:last-of-type {
+        position: relative;
+        left: -8vw;
+        top: 0; }
+    header .logo dd {
+      display: inline-block; }
+      header .logo dd b {
+        font-weight: normal; }
+      header .logo dd b:first-of-type {
+        font-family: "Allura", cursive;
+        font-size: 4vw;
+        position: absolute;
+        top: 50%;
+        left: 18vw;
+        margin-top: -4vw; }
+      header .logo dd b:last-of-type {
+        font-family: "Ovo", serif;
+        font-size: 3vw;
+        position: absolute;
+        top: 70%;
+        left: 21vw;
+        color: #de822b;
+        margin-top: -4vw; }
+    @media only screen and (min-width: 700px) {
+      header .logo dt {
+        margin-left: 30px; }
+        header .logo dt abbr[title] {
+          font-size: 105px; }
+        header .logo dt i:last-of-type {
+          left: -55px; }
+      header .logo dd b:first-of-type {
+        margin-top: -28px;
+        font-size: 28px;
+        top: 62px;
+        left: 136px; }
+      header .logo dd b:last-of-type {
+        margin-top: -28px;
+        font-size: 22px;
+        top: 87px;
+        left: 157px; } }
+    @media only screen and (min-width: 1024px) {
+      header .logo {
+        width: 30%; } }
+  header .who {
+    text-align: right;
+    width: 62vw;
+    -ms-flex-item-align: center;
+        -ms-grid-row-align: center;
+        align-self: center; }
+    header .who h1 {
+      font-family: "Ovo", serif;
+      margin: 0 4vw 1vw 0;
+      font-size: 6vw;
+      font-weight: normal;
+      line-height: 1; }
+    header .who h2 {
+      font-family: "Ovo", serif;
+      margin: 0 4vw 0 0;
+      font-weight: normal;
+      font-size: 3vw;
+      line-height: 1; }
+    @media only screen and (min-width: 600px) {
+      header .who h1 {
+        font-size: 36px;
+        margin-bottom: 5px; }
+      header .who h2 {
+        font-size: 22px; } }
+    @media only screen and (min-width: 1024px) {
+      header .who {
+        width: 70%; } }
+  header .details ul {
+    width: 100vw;
+    font-size: 2vw;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 3vw;
+    text-align: center;
+    border-bottom: 1px solid #b5b5b5; }
+    header .details ul li {
+      display: inline-block;
+      margin: 0 0 0 4vw; }
+      header .details ul li a {
+        text-decoration: none;
+        display: inline-block;
+        color: #353535; }
+        header .details ul li a i {
+          margin-right: 5px;
+          font-size: 1rem;
+          color: #de822b;
+          transition: all 0.2s ease-in-out; }
+        header .details ul li a:hover {
+          color: #e54424; }
+          header .details ul li a:hover i {
+            color: #e54424;
+            transform: scale(1.2); }
+    header .details ul:first-of-type {
+      margin-right: 0; }
+  @media only screen and (min-width: 700px) {
+    header .details ul {
+      font-size: 0.9rem;
+      padding-bottom: 15px; }
+      header .details ul li a i {
+        margin-right: 7px;
+        font-size: 1.2rem; } }
+  @media only screen and (min-width: 1024px) {
+    header .details {
+      width: 100%;
+      margin-top: -10px; }
+      header .details ul {
+        width: inherit; } }
+
+/* ============================================================
+   Page footer where the copyright text goes
+   ============================================================ */
+footer {
+  background-color: #5f5f5f;
+  border-top: 1px solid #b5b5b5;
+  text-align: right;
+  padding: 20px;
+  font-size: 0.8em; }
+  footer p {
+    margin: 0 0 0.2em;
+    color: #f1f1f1; }
+    footer p:first-of-type {
+      margin-bottom: 5px; }
+    footer p.license {
+      font-size: 0.6em; }
+  footer a {
+    text-decoration: none;
+    color: #de822b; }
+    footer a:hover {
+      color: #e54424;
+      text-decoration: underline; }
+  @media only screen and (min-width: 620px) {
+    footer {
+      padding: 20px 30px; } }
+  @media only screen and (min-width: 1024px) {
+    footer {
+      padding: 15px 30px;
+      z-index: 0; } }
