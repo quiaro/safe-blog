@@ -34,12 +34,6 @@ class Auth(RequestHandler):
     SIGNUP_KEY = 'signup'
 
     @staticmethod
-    def get_config():
-        return {
-            'auth_index_route': 'login'
-        }
-
-    @staticmethod
     def get_routes():
         return [
             webapp2.Route(r'/process-login',
@@ -58,7 +52,7 @@ class Auth(RequestHandler):
                           handler=Auth,
                           handler_method='login',
                           methods=['GET'],
-                          name=Auth.get_config()['auth_index_route']),
+                          name=Auth.ROUTES.get('index')),
 
             webapp2.Route(r'/',
                           handler=Auth,
@@ -113,16 +107,12 @@ class Auth(RequestHandler):
     def process_signup(self):
         form_data = self._validate_signup()
 
-        # Get routes from app configuration
-        login_route = self.app.config.get('auth_index_route')
-        app_route = self.app.config.get('blog_index_route')
-
         if len(form_data.get('errors').keys()) != 0:
             # If there was an error, redirect back to the login route.
             # Store errors in the app registry so that they persist after
             # the redirect to display them.
             self.app.registry[Auth.SIGNUP_KEY] = form_data
-            return self.redirect_to(login_route)
+            return self.redirect_to(self.app.config.get('default_route_external'))
 
         else:
             # pwdHash = make_pwd_hash(username, password)
@@ -140,7 +130,7 @@ class Auth(RequestHandler):
             #     self.render('signup.html', **params)
             #     return
 
-            return self.redirect_to(app_route)
+            return self.redirect_to(self.app.config.get('default_route_internal'))
 
     def login(self):
         login_data = self.app.registry.get(Auth.LOGIN_KEY)
@@ -163,4 +153,4 @@ class Auth(RequestHandler):
     def index(self):
         # TODO if authorized, redirect to home
         # TODO if not authorized, redirect to login
-        self.redirect(self.uri_for(Auth.get_config()['auth_index_route']))
+        self.redirect(self.uri_for(Auth.ROUTES.get('index')))
