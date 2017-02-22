@@ -109,6 +109,16 @@
             font-weight: normal;
         }
         .row {
+            form {
+                .error.general {
+                    margin-bottom: 10px;
+                }
+                .form-group {
+                    .error {
+                        margin-top: 3px;
+                    }
+                }
+            }
             .partials-login, .partials-signup {
                 padding: 0 10px 20px;
 

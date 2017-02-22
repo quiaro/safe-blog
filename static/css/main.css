@@ -5755,6 +5755,10 @@ footer {
   #login .panel-body h3 {
     font-family: "Ovo", serif;
     font-weight: normal; }
+  #login .panel-body .row form .error.general {
+    margin-bottom: 10px; }
+  #login .panel-body .row form .form-group .error {
+    margin-top: 3px; }
   #login .panel-body .row .partials-login, #login .panel-body .row .partials-signup {
     padding: 0 10px 20px; }
     #login .panel-body .row .partials-login .intro, #login .panel-body .row .partials-signup .intro {

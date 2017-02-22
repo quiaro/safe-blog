@@ -1,6 +1,8 @@
 import re
 import webapp2
+from webapp2_extras import sessions
 
+from secret import SECRET_KEY
 from request_handler import RequestHandler
 from models.user import User
 
@@ -27,36 +29,43 @@ class Auth(RequestHandler):
     """
 
     @staticmethod
-    def get_index_route():
-        """ Index or starting route for this module """
-        return 'login'
+    def get_config():
+        return {
+            'auth_index_route': 'login',
+            'webapp2_extras.sessions': {
+                'secret_key': SECRET_KEY,
+                'cookie_args': {
+                    'httponly': True
+                }
+            }
+        }
 
     @staticmethod
     def get_routes():
         return [
             webapp2.Route(r'/process-login',
-                            handler=Auth,
-                            handler_method='process_login',
-                            methods=['POST'],
-                            name='submit_login_url'),
+                          handler=Auth,
+                          handler_method='process_login',
+                          methods=['POST'],
+                          name='submit_login_url'),
 
             webapp2.Route(r'/process-signup',
-                            handler=Auth,
-                            handler_method='process_signup',
-                            methods=['POST'],
-                            name='submit_signup_url'),
+                          handler=Auth,
+                          handler_method='process_signup',
+                          methods=['POST'],
+                          name='submit_signup_url'),
 
             webapp2.Route('/login',
-                            handler=Auth,
-                            handler_method='login',
-                            methods=['GET'],
-                            name=Auth.get_index_route()),
+                          handler=Auth,
+                          handler_method='login',
+                          methods=['GET'],
+                          name=Auth.get_config()['auth_index_route']),
 
             webapp2.Route(r'/',
-                            handler=Auth,
-                            handler_method='index',
-                            methods=['GET'],
-                            name='index'),
+                          handler=Auth,
+                          handler_method='index',
+                          methods=['GET'],
+                          name='index'),
         ]
 
     def process_login(self):
@@ -69,34 +78,42 @@ class Auth(RequestHandler):
         email = self.request.get('signup-email')
 
         # Get routes from app configuration
-        login_route = self.app.config.get('login_route')
-        default_route = self.app.config.get('default_route')
+        login_route = self.app.config.get('auth_index_route')
+        app_route = self.app.config.get('blog_index_route')
 
-        params = dict(username=username,
-                      email=email,
-                      errors={})
+        session_store = sessions.get_store(request=self.request)
+        form_data = session_store.get_session()
+
+        form_data['username'] = username
+        form_data['email'] = email
+        form_data['signup_errors'] = {}
 
         # Check if the user already exists
         user = User.by_name(username)
 
         if user:
-            params['errors']['username'] = "Username already exists."
+            form_data['signup_errors'][
+                'username'] = "Username already exists."
 
         if not valid_username(username):
-            params['errors']['username'] = "Invalid username."
+            form_data['signup_errors']['username'] = "Invalid username."
 
         if not valid_password(password):
-            params['errors']['password'] = "Invalid password."
+            form_data['signup_errors']['password'] = "Invalid password."
 
         elif password != verify:
-            params['errors']['verify'] = "Your passwords didn't match."
+            form_data['signup_errors'][
+                'verify'] = "Your passwords didn't match."
 
         if not valid_email(email):
-            params['errors']['email'] = "Invalid email."
+            form_data['signup_errors']['email'] = "Invalid email."
 
-        if len(params['errors'].keys()) != 0:
+        if len(form_data['signup_errors'].keys()) != 0:
             # If there was an error, redirect back to the login route
-            return self.redirect_to(login_route, **params)
+            # Pass all the information via a session cookie
+            session_store.save_sessions(self.response)
+
+            return self.redirect_to(login_route)
         else:
             # pwdHash = make_pwd_hash(username, password)
 
@@ -113,15 +130,33 @@ class Auth(RequestHandler):
             #     self.render('signup.html', **params)
             #     return
 
-            return self.redirect_to(default_route)
+            return self.redirect_to(app_route)
 
     def login(self):
+        # Other methods will process the data from the sign in or sign up form.
+        # If the data is invalid, error messages and previous form data
+        # will be stored in a secure cookie so that they can be passed on to
+        # this handler after a redirect
+        session_store = sessions.get_store(request=self.request)
+        cookie_data = session_store.get_session()
+
+        login_data = {
+            'login_errors': {},
+            'signup_errors': {}
+        }
+        # Override default data with cookie data, if there's any.
+        if cookie_data:
+            login_data.update(cookie_data)
+
         self.render('login.html',
                     submit_login_url=self.uri_for('submit_login_url'),
                     submit_signup_url=self.uri_for('submit_signup_url'),
-                    errors={})
+                    **login_data)
+
+        # Delete cookie since it's no longer necessary
+        self.response.delete_cookie('session')
 
     def index(self):
         # TODO if authorized, redirect to home
         # TODO if not authorized, redirect to login
-        self.redirect(self.uri_for(Auth.get_index_route()))
+        self.redirect(self.uri_for(Auth.get_config()['auth_index_route']))

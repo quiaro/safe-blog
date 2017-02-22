@@ -4,9 +4,9 @@ from auth import Auth
 from blog import Blog
 
 config = dict(
-    app_index_route  = Blog.get_index_route(),
-    auth_index_route = Auth.get_index_route()
-)
+            Auth.get_config().items() +
+            Blog.get_config().items()
+            )
 
 # Build list of all routes in the app. Ensure the index (catch-all) route is
 # the last one in the list
