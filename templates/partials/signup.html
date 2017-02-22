@@ -2,45 +2,45 @@
     <h3>New User</h3>
     <p class="intro">Please sign up to create a new account.</p>
 
-    <form id="signup-form" method="post" action="{{submit_signup_url}}">
-        <p class='error general text-danger'>{{signup_errors.general}}</p>
+    <form id="signup-form" method="post" action="{{process_signup}}">
+        <p class='error general text-danger'>{{signup.errors.general}}</p>
 
         <div class="form-group">
             <label for="signup-username">Username</label>
             <input type="text"
                    class="form-control"
-                   name="signup-username"
+                   name="username"
                    id="signup-username"
-                   value={{username}}>
-            <p class='error text-danger'>{{signup_errors.username}}</p>
+                   value={{signup.username}}>
+            <p class='error text-danger'>{{signup.errors.username}}</p>
         </div>
 
         <div class="form-group">
             <label for="signup-password">Password</label>
             <input type="password"
                    class="form-control"
-                   name="signup-password"
+                   name="password"
                    id="signup-password">
-            <p class='error text-danger'>{{signup_errors.password}}</p>
+            <p class='error text-danger'>{{signup.errors.password}}</p>
         </div>
 
         <div class="form-group">
             <label for="signup-verify">Verify Password</label>
             <input type="password"
                    class="form-control"
-                   name="signup-verify"
+                   name="verify"
                    id="signup-verify">
-            <p class='error text-danger'>{{signup_errors.verify}}</p>
+            <p class='error text-danger'>{{signup.errors.verify}}</p>
         </div>
 
         <div class="form-group">
             <label for="signup-email">Email</label>
             <input type="email"
                    class="form-control"
-                   name="signup-email"
+                   name="email"
                    id="signup-email"
-                   value={{email}}>
-            <p class='error text-danger'>{{signup_errors.email}}</p>
+                   value={{signup.email}}>
+            <p class='error text-danger'>{{signup.errors.email}}</p>
         </div>
 
         <input class="btn btn-primary" type='submit' value="Sign Up" />

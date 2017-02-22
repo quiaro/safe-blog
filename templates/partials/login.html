@@ -2,16 +2,23 @@
     <h3>Registered User</h3>
     <p class="intro">Welcome back! Please sign in with your credentials.</p>
 
-    <form id="login-form" method="post" action="{{submit_login_url}}">
-        <div class='error'>{{error}}</div>
+    <form id="login-form" method="post" action="{{process_login}}">
+        <p class='error general text-danger'>{{login.errors.general}}</p>
 
         <div class="form-group">
             <label for="login-username">Username</label>
-            <input type="text" class="form-control" name="login-username" id="login-username">
+            <input type="text"
+                   class="form-control"
+                   name="username"
+                   id="login-username"
+                   value={{login.username}}>
         </div>
         <div class="form-group">
             <label for="login-password">Password</label>
-            <input type="password" class="form-control" name="login-password" id="login-password">
+            <input type="password"
+                   class="form-control"
+                   name="password"
+                   id="login-password">
         </div>
         <input class="btn btn-primary" type='submit' value="Sign In" />
     </form>

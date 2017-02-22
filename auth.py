@@ -1,11 +1,9 @@
 import re
 import webapp2
-from webapp2_extras import sessions
 
 from secret import SECRET_KEY
 from request_handler import RequestHandler
 from models.user import User
-
 
 def valid_username(username):
     USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
@@ -27,17 +25,18 @@ class Auth(RequestHandler):
         Manages authentication of a web app by processing sign in and
         sign up requests.
     """
+    ROUTES = dict(
+        index='login',
+        process_login='process_login',
+        process_signup='process_signup',
+    )
+    LOGIN_KEY = 'login'
+    SIGNUP_KEY = 'signup'
 
     @staticmethod
     def get_config():
         return {
-            'auth_index_route': 'login',
-            'webapp2_extras.sessions': {
-                'secret_key': SECRET_KEY,
-                'cookie_args': {
-                    'httponly': True
-                }
-            }
+            'auth_index_route': 'login'
         }
 
     @staticmethod
@@ -47,13 +46,13 @@ class Auth(RequestHandler):
                           handler=Auth,
                           handler_method='process_login',
                           methods=['POST'],
-                          name='submit_login_url'),
+                          name=Auth.ROUTES.get('process_login')),
 
             webapp2.Route(r'/process-signup',
                           handler=Auth,
                           handler_method='process_signup',
                           methods=['POST'],
-                          name='submit_signup_url'),
+                          name=Auth.ROUTES.get('process_signup')),
 
             webapp2.Route('/login',
                           handler=Auth,
@@ -68,52 +67,63 @@ class Auth(RequestHandler):
                           name='index'),
         ]
 
-    def process_login(self):
-        self.response.out.write('Processing login ...')
+    def _validate_signup(self):
+        """
+            Checks if the form fields for the signup form are valid.
+            Returns a dict with all the form fields plus a dict with errors.
+            If any of the form fields were invalid, the error dict will store
+            the form field name as the key and the error message as the value.
+        """
+        username = self.request.get('username')
+        password = self.request.get('password')
+        verify = self.request.get('verify')
+        email = self.request.get('email')
 
-    def process_signup(self):
-        username = self.request.get('signup-username')
-        password = self.request.get('signup-password')
-        verify = self.request.get('signup-verify')
-        email = self.request.get('signup-email')
-
-        # Get routes from app configuration
-        login_route = self.app.config.get('auth_index_route')
-        app_route = self.app.config.get('blog_index_route')
-
-        session_store = sessions.get_store(request=self.request)
-        form_data = session_store.get_session()
-
-        form_data['username'] = username
-        form_data['email'] = email
-        form_data['signup_errors'] = {}
+        # Preseve form values for the user
+        result = {
+            'username': username,
+            'email': email,
+        }
+        errors = {}
 
         # Check if the user already exists
         user = User.by_name(username)
 
         if user:
-            form_data['signup_errors'][
-                'username'] = "Username already exists."
+            errors['username'] = "Username already exists."
 
         if not valid_username(username):
-            form_data['signup_errors']['username'] = "Invalid username."
+            errors['username'] = "Invalid username."
 
         if not valid_password(password):
-            form_data['signup_errors']['password'] = "Invalid password."
+            errors['password'] = "Invalid password."
 
         elif password != verify:
-            form_data['signup_errors'][
-                'verify'] = "Your passwords didn't match."
+            errors['verify'] = "Your passwords didn't match."
 
         if not valid_email(email):
-            form_data['signup_errors']['email'] = "Invalid email."
+            errors['email'] = "Invalid email."
 
-        if len(form_data['signup_errors'].keys()) != 0:
-            # If there was an error, redirect back to the login route
-            # Pass all the information via a session cookie
-            session_store.save_sessions(self.response)
+        result['errors'] = errors
+        return result
 
+    def process_login(self):
+        self.response.out.write('Processing login ...')
+
+    def process_signup(self):
+        form_data = self._validate_signup()
+
+        # Get routes from app configuration
+        login_route = self.app.config.get('auth_index_route')
+        app_route = self.app.config.get('blog_index_route')
+
+        if len(form_data.get('errors').keys()) != 0:
+            # If there was an error, redirect back to the login route.
+            # Store errors in the app registry so that they persist after
+            # the redirect to display them.
+            self.app.registry[Auth.SIGNUP_KEY] = form_data
             return self.redirect_to(login_route)
+
         else:
             # pwdHash = make_pwd_hash(username, password)
 
@@ -133,28 +143,22 @@ class Auth(RequestHandler):
             return self.redirect_to(app_route)
 
     def login(self):
-        # Other methods will process the data from the sign in or sign up form.
-        # If the data is invalid, error messages and previous form data
-        # will be stored in a secure cookie so that they can be passed on to
-        # this handler after a redirect
-        session_store = sessions.get_store(request=self.request)
-        cookie_data = session_store.get_session()
+        login_data = self.app.registry.get(Auth.LOGIN_KEY)
+        signup_data = self.app.registry.get(Auth.SIGNUP_KEY)
 
-        login_data = {
-            'login_errors': {},
-            'signup_errors': {}
+        data = {
+            Auth.LOGIN_KEY: login_data if login_data else { 'errors': {} },
+            Auth.SIGNUP_KEY: signup_data if signup_data else { 'errors': {} }
         }
-        # Override default data with cookie data, if there's any.
-        if cookie_data:
-            login_data.update(cookie_data)
 
         self.render('login.html',
-                    submit_login_url=self.uri_for('submit_login_url'),
-                    submit_signup_url=self.uri_for('submit_signup_url'),
-                    **login_data)
+                    process_login=self.uri_for(Auth.ROUTES.get('process_login')),
+                    process_signup=self.uri_for(Auth.ROUTES.get('process_signup')),
+                    **data)
 
-        # Delete cookie since it's no longer necessary
-        self.response.delete_cookie('session')
+        # Clean up any errors stored in the registry
+        self.app.registry[Auth.LOGIN_KEY] = None
+        self.app.registry[Auth.SIGNUP_KEY] = None
 
     def index(self):
         # TODO if authorized, redirect to home
