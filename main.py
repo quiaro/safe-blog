@@ -11,8 +11,8 @@ NAMESPACE = '__alpha__'
 namespace_manager.set_namespace(NAMESPACE)
 
 config = dict(
-            default_route_external = Auth.ROUTES.get('index'),
-            default_route_internal = Blog.ROUTES.get('index')
+            default_route_external = Auth.routes.get('index'),
+            default_route_internal = Blog.routes.get('index')
             )
 
 # Build list of all routes in the app. Auth routes should go last because

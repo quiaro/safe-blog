@@ -24,13 +24,13 @@ class Auth(RequestHandler):
         Manages authentication of a web app by processing sign in and
         sign up requests.
     """
-    ROUTES = dict(
+    routes = dict(
         index='login',
         process_login='process_login',
         process_signup='process_signup',
     )
-    LOGIN_KEY = 'login'
-    SIGNUP_KEY = 'signup'
+    login_key = 'login'
+    signup_key = 'signup'
 
     @staticmethod
     def get_routes():
@@ -39,19 +39,19 @@ class Auth(RequestHandler):
                           handler=Auth,
                           handler_method='process_login',
                           methods=['POST'],
-                          name=Auth.ROUTES.get('process_login')),
+                          name=Auth.routes.get('process_login')),
 
             webapp2.Route(r'/process-signup',
                           handler=Auth,
                           handler_method='process_signup',
                           methods=['POST'],
-                          name=Auth.ROUTES.get('process_signup')),
+                          name=Auth.routes.get('process_signup')),
 
             webapp2.Route('/login',
                           handler=Auth,
                           handler_method='login',
                           methods=['GET'],
-                          name=Auth.ROUTES.get('index')),
+                          name=Auth.routes.get('index')),
 
             webapp2.Route(r'/',
                           handler=Auth,
@@ -111,8 +111,8 @@ class Auth(RequestHandler):
                     'general': 'User/password combination is invalid.'
                 }
             }
-            self.app.registry[Auth.LOGIN_KEY] = form_data
-            return self.redirect_to(Auth.ROUTES.get('index'))
+            self.app.registry[Auth.login_key] = form_data
+            return self.redirect_to(Auth.routes.get('index'))
         else:
             self._grant_access(user)
 
@@ -136,26 +136,26 @@ class Auth(RequestHandler):
         # If there was an error, redirect back to this module's index route.
         # Store errors in the app registry so that they persist after the
         # redirect to display them.
-        self.app.registry[Auth.SIGNUP_KEY] = form_data
-        return self.redirect_to(Auth.ROUTES.get('index'))
+        self.app.registry[Auth.signup_key] = form_data
+        return self.redirect_to(Auth.routes.get('index'))
 
     def login(self):
-        login_data = self.app.registry.get(Auth.LOGIN_KEY)
-        signup_data = self.app.registry.get(Auth.SIGNUP_KEY)
+        login_data = self.app.registry.get(Auth.login_key)
+        signup_data = self.app.registry.get(Auth.signup_key)
 
         data = {
-            Auth.LOGIN_KEY: login_data if login_data else { 'errors': {} },
-            Auth.SIGNUP_KEY: signup_data if signup_data else { 'errors': {} }
+            Auth.login_key: login_data if login_data else { 'errors': {} },
+            Auth.signup_key: signup_data if signup_data else { 'errors': {} }
         }
 
         self.render('login.html',
-                    process_login=self.uri_for(Auth.ROUTES.get('process_login')),
-                    process_signup=self.uri_for(Auth.ROUTES.get('process_signup')),
+                    process_login=self.uri_for(Auth.routes.get('process_login')),
+                    process_signup=self.uri_for(Auth.routes.get('process_signup')),
                     **data)
 
         # Clean up any errors stored in the registry
-        self.app.registry[Auth.LOGIN_KEY] = None
-        self.app.registry[Auth.SIGNUP_KEY] = None
+        self.app.registry[Auth.login_key] = None
+        self.app.registry[Auth.signup_key] = None
 
     def index(self):
         user = self.auth_helper.get_authenticated_user(self.request)
@@ -163,4 +163,4 @@ class Auth(RequestHandler):
             # if already authorized, redirect to default_route_internal
             self.redirect_to(self.app.config.get('default_route_internal'))
         else:
-            self.redirect(self.uri_for(Auth.ROUTES.get('index')))
+            self.redirect(self.uri_for(Auth.routes.get('index')))
