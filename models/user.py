@@ -1,14 +1,49 @@
+import random
+import hashlib
+from string import letters
 from google.appengine.ext import ndb
 
+
+def make_salt(length=8):
+    return ''.join(random.choice(letters) for x in xrange(length))
+
+
+def make_pw_hash(name, pw, salt=None):
+    if not salt:
+        salt = make_salt()
+    h = hashlib.sha256(name + pw + salt).hexdigest()
+    return '%s,%s' % (salt, h)
+
+
+def valid_pw(name, password, h):
+    salt = h.split(',')[0]
+    return h == make_pw_hash(name, password, salt)
+
+
+def get_user_group(group = 'default'):
+    return ndb.Key('Group', group)
+
+
 class User(ndb.Model):
-    pass
+    username = ndb.StringProperty(required=True)
+    pw_hash = ndb.StringProperty(indexed=False, required=True)
+    email = ndb.StringProperty(indexed=False)
 
     @classmethod
-    def by_name(cls, name):
-        # TODO: Implement
-        return False
+    def by_username(cls, username):
+        return cls.get_by_id(username)
 
     @classmethod
-    def register(cls, name, pw_hash, email = None):
-        # TODO: Implement
-        return None
+    def register(cls, username, pw, email=None, group='default'):
+        pw_hash = make_pw_hash(username, pw)
+        return cls(id=username,
+                   parent=get_user_group(group),
+                   username=username,
+                   pw_hash=pw_hash,
+                   email=email)
+
+    @classmethod
+    def authenticate(cls, username, pw):
+        u = cls.by_username(username)
+        if u and valid_pw(username, pw, u.pw_hash):
+            return u

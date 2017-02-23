@@ -1,7 +1,6 @@
 import re
 import webapp2
 
-from secret import SECRET_KEY
 from request_handler import RequestHandler
 from models.user import User
 
@@ -61,18 +60,13 @@ class Auth(RequestHandler):
                           name='index'),
         ]
 
-    def _validate_signup(self):
+    def _validate_signup(self, username, password, verify, email):
         """
             Checks if the form fields for the signup form are valid.
             Returns a dict with all the form fields plus a dict with errors.
             If any of the form fields were invalid, the error dict will store
             the form field name as the key and the error message as the value.
         """
-        username = self.request.get('username')
-        password = self.request.get('password')
-        verify = self.request.get('verify')
-        email = self.request.get('email')
-
         # Preseve form values for the user
         result = {
             'username': username,
@@ -81,7 +75,7 @@ class Auth(RequestHandler):
         errors = {}
 
         # Check if the user already exists
-        user = User.by_name(username)
+        user = User.by_username(username)
 
         if user:
             errors['username'] = "Username already exists."
@@ -105,32 +99,27 @@ class Auth(RequestHandler):
         self.response.out.write('Processing login ...')
 
     def process_signup(self):
-        form_data = self._validate_signup()
+        username = self.request.get('username')
+        password = self.request.get('password')
+        verify = self.request.get('verify')
+        email = self.request.get('email')
 
-        if len(form_data.get('errors').keys()) != 0:
-            # If there was an error, redirect back to the login route.
-            # Store errors in the app registry so that they persist after
-            # the redirect to display them.
-            self.app.registry[Auth.SIGNUP_KEY] = form_data
-            return self.redirect_to(self.app.config.get('default_route_external'))
+        form_data = self._validate_signup(username, password, verify, email)
 
-        else:
-            # pwdHash = make_pwd_hash(username, password)
+        if len(form_data.get('errors').keys()) == 0:
+            user = User.register(username, password, email)
+            try:
+                user.put()
+            except TransactionFailedError:
+                form_data['errors']['general'] = 'Unable to save entity. Please try again or contact your system administrator.'
+            else:
+                return self.redirect_to(self.app.config.get('default_route_internal'))
 
-            # Create user (save pwdHash instead of password)
-
-            # TODO: Implement
-            # user = User.register(username, pwdHash, email)
-            #
-            # try:
-            #     user.put()
-            # except TransactionFailedError:
-            #     errors[
-            #         'general'] = 'Unable to save entity. Please try again or contact your system administrator.'
-            #     self.render('signup.html', **params)
-            #     return
-
-            return self.redirect_to(self.app.config.get('default_route_internal'))
+        # If there was an error, redirect back to this module's index route.
+        # Store errors in the app registry so that they persist after the
+        # redirect to display them.
+        self.app.registry[Auth.SIGNUP_KEY] = form_data
+        return self.redirect_to(Auth.ROUTES.get('index'))
 
     def login(self):
         login_data = self.app.registry.get(Auth.LOGIN_KEY)
@@ -151,6 +140,6 @@ class Auth(RequestHandler):
         self.app.registry[Auth.SIGNUP_KEY] = None
 
     def index(self):
-        # TODO if authorized, redirect to home
-        # TODO if not authorized, redirect to login
+        # TODO if authorized, redirect to default_route_internal
+        # TODO if not authorized, redirect to default_route_external
         self.redirect(self.uri_for(Auth.ROUTES.get('index')))
