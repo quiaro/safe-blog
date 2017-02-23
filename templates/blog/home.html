@@ -1,0 +1,39 @@
+{% extends "../layout/auth.html" %}
+
+{% block default_content %}
+
+<div id="login" class="container">
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <dl class="logo">
+                        <dt>
+                          <abbr title="Quiros Online">
+                              <i>Q</i><i>O</i>
+                          </abbr>
+                      </dt>
+                        <dd>
+                            <b>Quirós</b>&nbsp;<b>Online</b>
+                        </dd>
+                    </dl>
+                    <div class="title">
+                        <span>Backroom</span>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class='row'>
+                        <div class='col-sm-6'>
+                            {% include 'partials/login.html' %}
+                        </div>
+                        <div class='col-sm-6'>
+                            {% include 'partials/signup.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

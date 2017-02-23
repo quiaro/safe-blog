@@ -30,8 +30,8 @@ class User(ndb.Model):
     email = ndb.StringProperty(indexed=False)
 
     @classmethod
-    def by_username(cls, username):
-        return cls.get_by_id(username)
+    def by_username(cls, username, group='default'):
+        return cls.get_by_id(username, parent=get_user_group(group))
 
     @classmethod
     def register(cls, username, pw, email=None, group='default'):

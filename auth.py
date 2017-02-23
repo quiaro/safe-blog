@@ -95,8 +95,26 @@ class Auth(RequestHandler):
         result['errors'] = errors
         return result
 
+    def _grant_access(self, user):
+        self.auth_helper.set_auth_cookie(self.response, user.key.string_id())
+        return self.redirect_to(self.app.config.get('default_route_internal'))
+
     def process_login(self):
-        self.response.out.write('Processing login ...')
+        username = self.request.get('username')
+        password = self.request.get('password')
+
+        user = User.authenticate(username, password)
+        if not user:
+            form_data = {
+                'username': username,
+                'errors': {
+                    'general': 'User/password combination is invalid.'
+                }
+            }
+            self.app.registry[Auth.LOGIN_KEY] = form_data
+            return self.redirect_to(Auth.ROUTES.get('index'))
+        else:
+            self._grant_access(user)
 
     def process_signup(self):
         username = self.request.get('username')
@@ -113,7 +131,7 @@ class Auth(RequestHandler):
             except TransactionFailedError:
                 form_data['errors']['general'] = 'Unable to save entity. Please try again or contact your system administrator.'
             else:
-                return self.redirect_to(self.app.config.get('default_route_internal'))
+                self._grant_access(user)
 
         # If there was an error, redirect back to this module's index route.
         # Store errors in the app registry so that they persist after the
@@ -140,6 +158,9 @@ class Auth(RequestHandler):
         self.app.registry[Auth.SIGNUP_KEY] = None
 
     def index(self):
-        # TODO if authorized, redirect to default_route_internal
-        # TODO if not authorized, redirect to default_route_external
-        self.redirect(self.uri_for(Auth.ROUTES.get('index')))
+        user = self.auth_helper.get_authenticated_user(self.request)
+        if user:
+            # if already authorized, redirect to default_route_internal
+            self.redirect_to(self.app.config.get('default_route_internal'))
+        else:
+            self.redirect(self.uri_for(Auth.ROUTES.get('index')))
