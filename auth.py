@@ -52,12 +52,6 @@ class Auth(RequestHandler):
                           handler_method='login',
                           methods=['GET'],
                           name=Auth.routes.get('index')),
-
-            webapp2.Route(r'/',
-                          handler=Auth,
-                          handler_method='index',
-                          methods=['GET'],
-                          name='index'),
         ]
 
     def _validate_signup(self, username, password, verify, email):
@@ -156,11 +150,3 @@ class Auth(RequestHandler):
         # Clean up any errors stored in the registry
         self.app.registry[Auth.login_key] = None
         self.app.registry[Auth.signup_key] = None
-
-    def index(self):
-        user = self.auth_helper.get_authenticated_user(self.request)
-        if user:
-            # if already authorized, redirect to default_route_internal
-            self.redirect_to(self.app.config.get('default_route_internal'))
-        else:
-            self.redirect(self.uri_for(Auth.routes.get('index')))

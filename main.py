@@ -15,9 +15,9 @@ config = dict(
             default_route_internal = Blog.routes.get('index')
             )
 
-# Build list of all routes in the app. Auth routes should go last because
-# they include the default (catch-all) route
+# Build list of all routes in the app.
 routes = Blog.get_routes()
 routes += Auth.get_routes()
+routes += [ webapp2.Route(r'/', handler='index.Index', name='index') ]
 
 app = webapp2.WSGIApplication(routes = routes, debug=True, config=config)
