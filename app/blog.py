@@ -1,6 +1,7 @@
 import webapp2
 
-from request_handler import RequestHandler
+from app.request_handler import RequestHandler
+from app.models.blogpost import BlogPost
 
 
 class AppSection(RequestHandler):
@@ -25,6 +26,7 @@ class Blog(AppSection):
     routes = dict(
         index='blog',
         new_post='new_post',
+        edit_post='edit_post',
         show_post='show_post',
         modify_post='modify_post',
     )
@@ -42,6 +44,10 @@ class Blog(AppSection):
                           handler=NewPost,
                           name=Blog.routes.get('new_post')),
 
+            webapp2.Route(r'/blog/<post_id>/edit',
+                          handler=EditPost,
+                          name=Blog.routes.get('edit_post')),
+
             webapp2.Route(r'/blog/<post_id>',
                           handler=Blog,
                           handler_method='read_post',
@@ -53,17 +59,26 @@ class Blog(AppSection):
                           handler_method='modify_post',
                           methods=['POST'],
                           name=Blog.routes.get('modify_post')),
-
-            webapp2.Route(r'/blog/<post_id>/edit',
-                          handler=Blog,
-                          handler_method='edit_post',
-                          methods=['GET', 'POST'],
-                          name=Blog.routes.get('edit_post')),
         ]
 
     def home(self):
         self.render_internal('blog/home.html',
                               new_post=self.uri_for(Blog.routes.get('new_post')))
+
+    def read_post(self, post_id=None):
+        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
+        if post:
+            self.render_internal('blog/read-post.html',
+                                  post=post,
+                                  home=self.uri_for(Blog.routes.get('index')),
+                                  edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
+        else:
+            self.error(404)
+            return
+
+    def modify_post(self, post_id=None):
+        print 'modify_post'
+        pass
 
 
 class NewPost(AppSection):
@@ -77,10 +92,22 @@ class NewPost(AppSection):
         content = self.request.get('content')
 
         if subject and content:
-            p = Post(parent=blog_key(), subject=subject, content=content)
+            p = BlogPost(parent=self.user.key, subject=subject, content=content)
             p.put()
-            self.redirect('/blog/%s' % str(p.key().id()))
+            self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.integer_id())
         else:
-            error = "subject and content, please!"
-            self.render("newpost.html", subject=subject,
-                        content=content, error=error)
+            error = "Subject and content fields are required."
+            self.render("blog/new-post.html",
+                        subject=subject,
+                        content=content,
+                        error=error)
+
+class EditPost(AppSection):
+
+    def get(self):
+        print 'EditPost.get()'
+        pass
+
+    def post(self):
+        print 'EditPost.post()'
+        pass

@@ -1,8 +1,8 @@
 import re
 import webapp2
 
-from request_handler import RequestHandler
-from models.user import User
+from app.request_handler import RequestHandler
+from app.models.user import User
 
 def valid_username(username):
     USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")

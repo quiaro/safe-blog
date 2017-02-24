@@ -1,8 +1,8 @@
 import webapp2
 from google.appengine.api import namespace_manager
 
-from auth import Auth
-from blog import Blog
+from app.auth import Auth
+from app.blog import Blog
 
 # Maintain a specific datastore instance defined by a namespace
 # For more information:
@@ -19,6 +19,6 @@ config = dict(
 # Build list of all routes in the app.
 routes = Blog.get_routes()
 routes += Auth.get_routes()
-routes += [ webapp2.Route(r'/', handler='index.Index', name='index') ]
+routes += [ webapp2.Route(r'/', handler='app.index.Index', name='index') ]
 
 app = webapp2.WSGIApplication(routes = routes, debug=True, config=config)

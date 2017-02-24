@@ -1,7 +1,7 @@
 from webapp2_extras.securecookie import SecureCookieSerializer
 
-from secret import SECRET_KEY
-from models.user import User
+from app.secret import SECRET_KEY
+from app.models.user import User
 
 class AuthHelper:
 

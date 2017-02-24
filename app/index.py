@@ -1,4 +1,4 @@
-from request_handler import RequestHandler
+from app.request_handler import RequestHandler
 
 class Index(RequestHandler):
     """
