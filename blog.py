@@ -60,4 +60,4 @@ class Blog(RequestHandler):
             return self.redirect_to(self.app.config.get('default_route_external'))
 
     def home(self):
-        self.render_internal('blog/home.html')
+        self.render_internal('blog/home.html', new_post=self.uri_for(Blog.routes.get('new_post')))

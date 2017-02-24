@@ -3,14 +3,37 @@
 {% block navigation %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <a class="btn btn-primary" href="#">New Post</a>
+        <a class="btn btn-primary" href="{{new_post}}">New Post</a>
         <a class="btn logout pull-right" href="{{logout}}">Logout</a>
     </div>
 </nav>
 {% endblock %}
 
 {% block main_content %}
-<div id="blog-home" class="container">
-    <span>Home content would go here!</span>
+<div id="blog-home" class="container-fluid">
+    <div class='row'>
+        <div class='my-posts col-md-6 col-md-push-6'>
+            <h1>My Posts</h1>
+            {% if my_posts %}
+                {% for p in my_posts %}
+                    {{ p.render() | safe }}
+                {% endfor %}
+            {% else %}
+                <p>Your first post is <a href="{{new_post}}">one click away</a>.</p>
+            {% endif %}
+        </div>
+        <div class='other-posts col-md-6 col-md-pull-6'>
+            <h1>Posts by Others</h1>
+            {% if other_posts %}
+                {% for p in other_posts %}
+                    {{ p.render() | safe }}
+                {% endfor %}
+            {% else %}
+                <p>Do you have something you want to write about?<br>
+                    <a href="{{new_post}}">Write a post</a> and encourage others to do the same.
+                </p>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
