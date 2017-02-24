@@ -50,7 +50,7 @@ class Blog(AppSection):
 
             webapp2.Route(r'/blog/<post_id>',
                           handler=Blog,
-                          handler_method='read_post',
+                          handler_method='show_post',
                           methods=['GET'],
                           name=Blog.routes.get('show_post')),
 
@@ -65,7 +65,7 @@ class Blog(AppSection):
         self.render_internal('blog/home.html',
                               new_post=self.uri_for(Blog.routes.get('new_post')))
 
-    def read_post(self, post_id=None):
+    def show_post(self, post_id=None):
         post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
         if post:
             self.render_internal('blog/read-post.html',
@@ -84,7 +84,10 @@ class Blog(AppSection):
 class NewPost(AppSection):
 
     def get(self):
-        self.render_internal('blog/new-post.html',
+        post = {}
+        self.render_internal('blog/update-post.html',
+                              post=post,
+                              is_editing=False,
                               home=self.uri_for(Blog.routes.get('index')))
 
     def post(self):
@@ -97,17 +100,29 @@ class NewPost(AppSection):
             self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.integer_id())
         else:
             error = "Subject and content fields are required."
-            self.render("blog/new-post.html",
-                        subject=subject,
-                        content=content,
-                        error=error)
+            post = {
+                subject: subject,
+                content: content
+            }
+            self.render("blog/update-post.html",
+                        post=post,
+                        is_editing=False,
+                        error=error,
+                        home=self.uri_for(Blog.routes.get('index')))
 
 class EditPost(AppSection):
 
-    def get(self):
-        print 'EditPost.get()'
-        pass
+    def get(self, post_id=None):
+        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
+        if post:
+            self.render_internal('blog/update-post.html',
+                                  post=post,
+                                  is_editing=True,
+                                  home=self.uri_for(Blog.routes.get('show_post'), post_id=post.key.integer_id()))
+        else:
+            self.error(404)
+            return
 
-    def post(self):
+    def post(self, post_id=None):
         print 'EditPost.post()'
         pass
