@@ -1,19 +1,12 @@
-{% extends "layout/default.html" %}
+<!doctype html>
+<html lang="en">
 
-<body>
-    {% block default_content %}
-    <ul class="nav nav-pills">
-      <li role="presentation"><a href="#">New Post</a></li>
-      <li role="presentation">
-          <a class="logout" href="{{logout}}">Logout</a>
-      </li>
-    </ul>
+{% include 'partials/head.html' %}
 
-    <div id="content">
-        {% block app_content %} {% endblock %}
-    </div>
+<body class="internal">
+    {% block navigation %} {% endblock %}
 
-    {% endblock %}
+    {% block main_content %} {% endblock %}
 </body>
 
 </html>

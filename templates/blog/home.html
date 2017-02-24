@@ -1,9 +1,14 @@
 {% extends "layout/internal.html" %}
 
-{% block app_content %}
+{% block navigation %}
+<nav>
+    <a class="btn btn-primary" href="#">New Post</a>
+    <a class="logout" href="{{logout}}">Logout</a>
+</nav>
+{% endblock %}
 
+{% block main_content %}
 <div id="blog-home" class="container">
     <span>Home content would go here!</span>
 </div>
-
 {% endblock %}
