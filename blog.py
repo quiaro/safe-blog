@@ -2,7 +2,25 @@ import webapp2
 
 from request_handler import RequestHandler
 
-class Blog(RequestHandler):
+
+class AppSection(RequestHandler):
+
+    def initialize(self, *a, **kw):
+        """
+            This method overrides webapp2.RequestHandler.initialize in order
+            to check for the existence of the authentication cookie with every
+            request. If the auth cookie exists, its value is deserialized and
+            used to retrieve the user entity. If the user entity exists, it's
+            attached to the request; otherwise, the user is redirected to the
+            app's authentication index.
+        """
+        RequestHandler.initialize(self, *a, **kw)
+        self.user = self.auth_helper.get_authenticated_user(self.request)
+        if not self.user:
+            return self.redirect_to(self.app.config.get('default_route_external'))
+
+
+class Blog(AppSection):
 
     routes = dict(
         index='blog',
@@ -21,9 +39,7 @@ class Blog(RequestHandler):
                           name=Blog.routes.get('index')),
 
             webapp2.Route(r'/blog/new-post',
-                          handler=Blog,
-                          handler_method='new_post',
-                          methods=['POST'],
+                          handler=NewPost,
                           name=Blog.routes.get('new_post')),
 
             webapp2.Route(r'/blog/<post_id>',
@@ -45,19 +61,26 @@ class Blog(RequestHandler):
                           name=Blog.routes.get('edit_post')),
         ]
 
-    def initialize(self, *a, **kw):
-        """
-            This method overrides webapp2.RequestHandler.initialize in order
-            to check for the existence of the authentication cookie with every
-            request. If the auth cookie exists, its value is deserialized and
-            used to retrieve the user entity. If the user entity exists, it's
-            attached to the request; otherwise, the user is redirected to the
-            app's authentication index.
-        """
-        RequestHandler.initialize(self, *a, **kw)
-        self.user = self.auth_helper.get_authenticated_user(self.request)
-        if not self.user:
-            return self.redirect_to(self.app.config.get('default_route_external'))
-
     def home(self):
-        self.render_internal('blog/home.html', new_post=self.uri_for(Blog.routes.get('new_post')))
+        self.render_internal('blog/home.html',
+                              new_post=self.uri_for(Blog.routes.get('new_post')))
+
+
+class NewPost(AppSection):
+
+    def get(self):
+        self.render_internal('blog/new-post.html',
+                              home=self.uri_for(Blog.routes.get('index')))
+
+    def post(self):
+        subject = self.request.get('subject')
+        content = self.request.get('content')
+
+        if subject and content:
+            p = Post(parent=blog_key(), subject=subject, content=content)
+            p.put()
+            self.redirect('/blog/%s' % str(p.key().id()))
+        else:
+            error = "subject and content, please!"
+            self.render("newpost.html", subject=subject,
+                        content=content, error=error)
