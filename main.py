@@ -12,7 +12,8 @@ namespace_manager.set_namespace(NAMESPACE)
 
 config = dict(
             default_route_external = Auth.routes.get('index'),
-            default_route_internal = Blog.routes.get('index')
+            default_route_internal = Blog.routes.get('index'),
+            default_route_logout   = Auth.routes.get('logout')
             )
 
 # Build list of all routes in the app.

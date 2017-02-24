@@ -60,4 +60,4 @@ class Blog(RequestHandler):
             return self.redirect_to(self.app.config.get('default_route_external'))
 
     def home(self):
-        self.write('Inside blog ...')
+        self.render_internal('blog/home.html')

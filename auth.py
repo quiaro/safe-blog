@@ -28,6 +28,7 @@ class Auth(RequestHandler):
         index='login',
         process_login='process_login',
         process_signup='process_signup',
+        logout='logout'
     )
     login_key = 'login'
     signup_key = 'signup'
@@ -52,6 +53,12 @@ class Auth(RequestHandler):
                           handler_method='login',
                           methods=['GET'],
                           name=Auth.routes.get('index')),
+
+            webapp2.Route('/logout',
+                          handler=Auth,
+                          handler_method='logout',
+                          methods=['GET'],
+                          name=Auth.routes.get('logout')),
         ]
 
     def _validate_signup(self, username, password, verify, email):
@@ -142,7 +149,7 @@ class Auth(RequestHandler):
             Auth.signup_key: signup_data if signup_data else { 'errors': {} }
         }
 
-        self.render('login.html',
+        self.render('auth/login.html',
                     process_login=self.uri_for(Auth.routes.get('process_login')),
                     process_signup=self.uri_for(Auth.routes.get('process_signup')),
                     **data)
@@ -150,3 +157,6 @@ class Auth(RequestHandler):
         # Clean up any errors stored in the registry
         self.app.registry[Auth.login_key] = None
         self.app.registry[Auth.signup_key] = None
+
+    def logout(self):
+        print 'Time to log out!!!'
