@@ -1,5 +1,11 @@
 body {
     background-color: $content-bg;
+
+    &.internal {
+        .navbar > .container-fluid {
+            margin-top: 7px;
+        }
+    }
 }
 
 header {

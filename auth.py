@@ -159,4 +159,5 @@ class Auth(RequestHandler):
         self.app.registry[Auth.signup_key] = None
 
     def logout(self):
-        print 'Time to log out!!!'
+        self.auth_helper.destroy_auth_cookie(self.response)
+        return self.redirect_to(self.app.config.get('default_route_external'))

@@ -5509,6 +5509,8 @@ button.close {
 
 body {
   background-color: white; }
+  body.internal .navbar > .container-fluid {
+    margin-top: 7px; }
 
 header dt {
   font-weight: normal; }
