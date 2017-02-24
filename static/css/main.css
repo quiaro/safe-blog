@@ -5778,3 +5778,11 @@ footer {
     #login .panel-body .row > :last-child {
       border-top: 0 none;
       border-left: 1px solid #ddd; } }
+
+#new-post h1 {
+  margin-top: 20px;
+  margin-bottom: 15px; }
+
+#new-post textarea {
+  height: 12em;
+  resize: vertical; }
