@@ -1,5 +1,15 @@
 {% extends "layout/internal.html" %}
 
+{% if is_editing %}
+    {% block navigation %}
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <a class="btn btn-danger" href="{{delete_post}}">Delete Post</a>
+        </div>
+    </nav>
+    {% endblock %}
+{% endif %}
+
 {% block main_content %}
 <div id="new-post" class="container-fluid">
     <div class='row'>

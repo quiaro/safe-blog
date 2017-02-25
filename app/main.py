@@ -2,7 +2,7 @@ import webapp2
 from google.appengine.api import namespace_manager
 
 from app.auth import Auth
-from app.blog import Blog
+from app.blog.blog import Blog
 
 # Maintain a specific datastore instance defined by a namespace
 # For more information:
