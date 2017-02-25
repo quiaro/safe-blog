@@ -5,32 +5,21 @@ from app.models.blogpost import BlogPost
 
 class DeletePost(AuthenticatedHandler):
 
-    def get(self):
-        post = {}
-        self.render_internal('blog/update-post.html',
-                             post=post,
-                             is_editing=False,
-                             home=self.uri_for(Blog.routes.get('index')))
-
-    def post(self):
-        subject = self.request.get('subject')
-        content = self.request.get('content')
-
-        if subject and content:
-            p = BlogPost(parent=self.user.key,
-                         subject=subject,
-                         content=content,
-                         created_by=self.user.key)
-            p.put()
-            self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.id())
+    def get(self, post_id=None):
+        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
+        if post:
+            self.render_internal('blog/delete-post.html',
+                                 post=post,
+                                 edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id()))
         else:
-            error = "Subject and content fields are required."
-            post = {
-                subject: subject,
-                content: content
-            }
-            self.render("blog/update-post.html",
-                        post=post,
-                        is_editing=False,
-                        error=error,
-                        home=self.uri_for(Blog.routes.get('index')))
+            self.error(404)
+            return
+
+    def post(self, post_id=None):
+        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
+        if post:
+            post.key.delete()
+            self.redirect_to(Blog.routes.get('index'))
+        else:
+            self.error(404)
+            return

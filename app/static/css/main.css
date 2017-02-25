@@ -5817,3 +5817,6 @@ footer {
 #new-post textarea {
   height: 12em;
   resize: vertical; }
+
+#delete-post .modal {
+  display: block; }
