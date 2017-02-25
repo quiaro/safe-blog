@@ -1,5 +1,46 @@
 #blog-home {
+    .post-container {
+        $vertical-padding: 15px;
 
+        padding: $vertical-padding 0;
+        position: relative;
+
+        @media only screen and (min-width: $screen-md) {
+            padding-right: 6vw;
+        }
+
+        .edit.btn {
+            position: absolute;
+            top: $vertical-padding - 5px;
+            left: 0;
+            z-index: 1;
+        }
+
+        .post {
+            .post-heading {
+                position: relative;
+                border-bottom: 3px solid #777;
+
+                .post-title {
+                    font-size: 1.3em;
+                    margin-left: 60px;
+                    padding-bottom: 3px;
+                    padding-right: 90px;
+                }
+
+                .post-date {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    font-size: 0.8em;
+                }
+            }
+            .post-content {
+                margin-top: 15px;
+                line-height: 1.5;
+            }
+        }
+    }
 }
 
 #new-post {

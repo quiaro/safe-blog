@@ -7,7 +7,6 @@ from app.utils.template_renderer import TemplateRenderer
 class RequestHandler(webapp2.RequestHandler):
 
     def __init__(self, request, response):
-        self.t_renderer = TemplateRenderer()
         self.auth_helper = AuthHelper()
         super(RequestHandler, self).__init__(request, response)
 
@@ -15,7 +14,7 @@ class RequestHandler(webapp2.RequestHandler):
         self.response.out.write(*a, **kw)
 
     def render_template(self, template, **params):
-        return self.t_renderer.render(template, **params)
+        return TemplateRenderer.render(template, **params)
 
     def render(self, template, **kw):
         self.write(self.render_template(template, **kw))

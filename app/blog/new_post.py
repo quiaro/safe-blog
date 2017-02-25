@@ -20,7 +20,7 @@ class NewPost(AuthenticatedHandler):
             p = BlogPost(parent=self.user.key,
                          subject=subject,
                          content=content,
-                         created_by=self.user.key)
+                         owner=self.user.key)
             p.put()
             self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.id())
         else:

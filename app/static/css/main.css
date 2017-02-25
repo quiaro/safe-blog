@@ -5782,6 +5782,34 @@ footer {
       border-top: 0 none;
       border-left: 1px solid #ddd; } }
 
+#blog-home .post-container {
+  padding: 15px 0;
+  position: relative; }
+  @media only screen and (min-width: 992px) {
+    #blog-home .post-container {
+      padding-right: 6vw; } }
+  #blog-home .post-container .edit.btn {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    z-index: 1; }
+  #blog-home .post-container .post .post-heading {
+    position: relative;
+    border-bottom: 3px solid #777; }
+    #blog-home .post-container .post .post-heading .post-title {
+      font-size: 1.3em;
+      margin-left: 60px;
+      padding-bottom: 3px;
+      padding-right: 90px; }
+    #blog-home .post-container .post .post-heading .post-date {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 0.8em; }
+  #blog-home .post-container .post .post-content {
+    margin-top: 15px;
+    line-height: 1.5; }
+
 #new-post h1 {
   margin-top: 20px;
   margin-bottom: 15px; }
