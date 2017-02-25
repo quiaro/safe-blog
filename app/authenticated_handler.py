@@ -14,4 +14,4 @@ class AuthenticatedHandler(RequestHandler):
         RequestHandler.initialize(self, *a, **kw)
         self.user = self.auth_helper.get_authenticated_user(self.request)
         if not self.user:
-            return self.redirect_to(self.app.config.get('default_route_external'))
+            return self.redirect_to(self.app.config.get('default_route_external'), _abort=True)
