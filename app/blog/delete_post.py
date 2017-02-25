@@ -1,5 +1,6 @@
-from app.models.blogpost import BlogPost
 from app.authenticated_handler import AuthenticatedHandler
+from app.blog.blog import Blog
+from app.models.blogpost import BlogPost
 
 
 class DeletePost(AuthenticatedHandler):
