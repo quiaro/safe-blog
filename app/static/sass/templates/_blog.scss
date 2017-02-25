@@ -1,6 +1,14 @@
 #blog-home {
+
+    .my-posts {
+        .blog-post {
+            .post-title {
+                margin-left: 60px;
+            }
+        }
+    }
     .post-container {
-        $vertical-padding: 15px;
+        $vertical-padding: 10px;
 
         padding: $vertical-padding 0;
         position: relative;
@@ -36,7 +44,6 @@
     .blog-post {
         .post-title {
             font-size: 1.6em;
-            margin-left: 0;
         }
     }
 }

@@ -32,7 +32,9 @@
             <h1>Posts by Others</h1>
             {% if other_posts %}
                 {% for p in other_posts %}
-                    {{ p.render() | safe }}
+                    <div class='post-container'>
+                        {{ p.render() | safe }}
+                    </div>
                 {% endfor %}
             {% else %}
                 <p>Do you have something you want to write about?<br>

@@ -5526,7 +5526,6 @@ body {
     border-bottom: 3px solid #777; }
     body.internal .blog-post .post-heading .post-title {
       font-size: 1.3em;
-      margin-left: 60px;
       padding-bottom: 3px;
       padding-right: 90px; }
     body.internal .blog-post .post-heading .post-date {
@@ -5798,15 +5797,18 @@ footer {
       border-top: 0 none;
       border-left: 1px solid #ddd; } }
 
+#blog-home .my-posts .blog-post .post-title {
+  margin-left: 60px; }
+
 #blog-home .post-container {
-  padding: 15px 0;
+  padding: 10px 0;
   position: relative; }
   @media only screen and (min-width: 992px) {
     #blog-home .post-container {
       padding-right: 6vw; } }
   #blog-home .post-container .edit.btn {
     position: absolute;
-    top: 10px;
+    top: 5px;
     left: 0;
     z-index: 1; }
 
@@ -5821,8 +5823,7 @@ footer {
 #read-post {
   margin: 30px 0; }
   #read-post .blog-post .post-title {
-    font-size: 1.6em;
-    margin-left: 0; }
+    font-size: 1.6em; }
 
 #delete-post .modal {
   display: block; }
