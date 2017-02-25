@@ -11,5 +11,11 @@
 {% endblock %}
 
 {% block main_content %}
-    {{post.render() | safe}}
+    <div id='read-post' class="container">
+        <div class='row'>
+            <div class='col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8'>
+                {{post.render() | safe}}
+            </div>
+        </div>
+    </div>
 {% endblock %}

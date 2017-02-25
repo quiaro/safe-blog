@@ -20,6 +20,31 @@ body {
                 margin-right: 15px;
             }
         }
+
+        .blog-post {
+            .post-heading {
+                position: relative;
+                border-bottom: 3px solid #777;
+
+                .post-title {
+                    font-size: 1.3em;
+                    margin-left: 60px;
+                    padding-bottom: 3px;
+                    padding-right: 90px;
+                }
+
+                .post-date {
+                    position: absolute;
+                    bottom: 5px;
+                    right: 5px;
+                    font-size: 0.8em;
+                }
+            }
+            .post-content {
+                margin-top: 15px;
+                line-height: 1.5;
+            }
+        }
     }
 }
 

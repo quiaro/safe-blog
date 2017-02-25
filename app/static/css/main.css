@@ -5521,6 +5521,22 @@ body {
     body.internal .navbar > .container-fluid .greeting {
       font-size: 1.1em;
       margin-right: 15px; }
+  body.internal .blog-post .post-heading {
+    position: relative;
+    border-bottom: 3px solid #777; }
+    body.internal .blog-post .post-heading .post-title {
+      font-size: 1.3em;
+      margin-left: 60px;
+      padding-bottom: 3px;
+      padding-right: 90px; }
+    body.internal .blog-post .post-heading .post-date {
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-size: 0.8em; }
+  body.internal .blog-post .post-content {
+    margin-top: 15px;
+    line-height: 1.5; }
 
 header dt {
   font-weight: normal; }
@@ -5793,22 +5809,6 @@ footer {
     top: 10px;
     left: 0;
     z-index: 1; }
-  #blog-home .post-container .post .post-heading {
-    position: relative;
-    border-bottom: 3px solid #777; }
-    #blog-home .post-container .post .post-heading .post-title {
-      font-size: 1.3em;
-      margin-left: 60px;
-      padding-bottom: 3px;
-      padding-right: 90px; }
-    #blog-home .post-container .post .post-heading .post-date {
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      font-size: 0.8em; }
-  #blog-home .post-container .post .post-content {
-    margin-top: 15px;
-    line-height: 1.5; }
 
 #new-post h1 {
   margin-top: 20px;
@@ -5817,6 +5817,12 @@ footer {
 #new-post textarea {
   height: 12em;
   resize: vertical; }
+
+#read-post {
+  margin: 30px 0; }
+  #read-post .blog-post .post-title {
+    font-size: 1.6em;
+    margin-left: 0; }
 
 #delete-post .modal {
   display: block; }
