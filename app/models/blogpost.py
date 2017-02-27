@@ -4,6 +4,9 @@ from string import find
 from app.utils.template_renderer import TemplateRenderer
 from app.models.user import User
 
+def get_blog_group(group = 'default'):
+    return ndb.Key('Group', group)
+
 
 class Comment(ndb.Model):
     user = ndb.UserProperty(indexed=False, required = True)
@@ -14,13 +17,24 @@ class BlogPost(ndb.Model):
     subject = ndb.StringProperty(required = True)
     content = ndb.TextProperty(required = True)
     created = ndb.DateTimeProperty(auto_now_add = True)
-    owner = ndb.KeyProperty(kind=User)
+    owner = ndb.KeyProperty(kind=User, required=True)
     last_modified = ndb.DateTimeProperty(auto_now = True)
     comments = ndb.StructuredProperty(Comment, repeated=True)
 
     @classmethod
+    def create(cls, subject, content, owner, group='default'):
+        return cls(parent=get_blog_group(group),
+                   subject=subject,
+                   content=content,
+                   owner=owner)
+
+    @classmethod
+    def by_id(cls, post_id, group='default'):
+        return cls.get_by_id(post_id, parent=get_blog_group(group))
+
+    @classmethod
     def created_by(cls, user):
-        return cls.query(ancestor=user.key).order(cls.created).fetch()
+        return cls.query().filter(BlogPost.owner == user.key).fetch()
 
     @classmethod
     def not_created_by(cls, user):

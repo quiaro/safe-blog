@@ -62,12 +62,17 @@ class Blog(AuthenticatedHandler):
                               new_post=self.uri_for(Blog.routes.get('new_post')))
 
     def show_post(self, post_id=None):
-        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
+        post = BlogPost.by_id(int(post_id))
         if post:
-            self.render_internal('blog/read-post.html',
-                                  post=post,
-                                  home=self.uri_for(Blog.routes.get('index')),
-                                  edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
+            if post.owner == self.user.key:
+                self.render_internal('blog/read-post-by-owner.html',
+                                      post=post,
+                                      home=self.uri_for(Blog.routes.get('index')),
+                                      edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
+            else:
+                self.render_internal('blog/read-post-by-other.html',
+                                      post=post,
+                                      home=self.uri_for(Blog.routes.get('index')))
         else:
             self.error(404)
             return

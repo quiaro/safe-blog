@@ -1,0 +1,20 @@
+{% extends "layout/internal.html" %}
+
+{% block navigation %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <a class="btn btn-primary" href="{{home}}">View All Posts</a>
+        <a class="btn logout pull-right" href="{{logout}}">Logout</a>
+    </div>
+</nav>
+{% endblock %}
+
+{% block main_content %}
+    <div id='read-post' class="container">
+        <div class='row'>
+            <div class='col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8'>
+                {{post.render() | safe}}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -17,10 +17,7 @@ class NewPost(AuthenticatedHandler):
         content = self.request.get('content')
 
         if subject and content:
-            p = BlogPost(parent=self.user.key,
-                         subject=subject,
-                         content=content,
-                         owner=self.user.key)
+            p = BlogPost.create(subject, content, self.user.key)
             p.put()
             self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.id())
         else:

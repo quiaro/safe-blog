@@ -6,20 +6,28 @@ from app.models.blogpost import BlogPost
 class DeletePost(AuthenticatedHandler):
 
     def get(self, post_id=None):
-        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
-        if post:
-            self.render_internal('blog/delete-post.html',
-                                 post=post,
-                                 edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id()))
-        else:
+        post = BlogPost.by_id(int(post_id))
+
+        if not post:
             self.error(404)
+            return
+        if post.owner != self.user.key:
+            self.error(403)
             return
 
+        self.render_internal('blog/delete-post.html',
+                             post=post,
+                             edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id()))
+
     def post(self, post_id=None):
-        post = BlogPost.get_by_id(int(post_id), parent=self.user.key)
-        if post:
-            post.key.delete()
-            self.redirect_to(Blog.routes.get('index'))
-        else:
+        post = BlogPost.by_id(int(post_id))
+
+        if not post:
             self.error(404)
             return
+        if post.owner != self.user.key:
+            self.error(403)
+            return
+
+        post.key.delete()
+        self.redirect_to(Blog.routes.get('index'))
