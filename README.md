@@ -14,29 +14,29 @@ To run this project you will first need to [download and install the Google Clou
 
 Then, you may follow these 3 simple steps to get this project set up and running locally:
 
-1. Clone the repository
+1) Clone the repository
 ```
 $ git clone https://github.com/quiaro/safe-blog
 ```
 
-2. Go to the project directory
+2) Go to the project directory
 ```
 $ cd safe-blog
 ```
 
-3. Launch the [local development server](https://cloud.google.com/appengine/docs/standard/python/tools/using-local-server)
+3) Launch the [local development server](https://cloud.google.com/appengine/docs/standard/python/tools/using-local-server)
 ```
 $ dev_appserver.py .
 ```
 
 This project uses the CSS language extension Sass, which makes it easier to change the look of the app during development. If you wish to make changes to any of the stylesheets and see the changes applied with every browser refresh, you will need to follow 2 additional steps:
 
-4. Install gulp, gulp-autoprefixer and gulp-sass
+4) Install gulp, gulp-autoprefixer and gulp-sass
 ```
 $ npm install
 ```
 
-5. Ask gulp to watch for changes to any of the .scss files. On change, [gulp](http://gulpjs.com/) will update the project's stylesheet (`app/static/css/main.css`) and the changes will be reflected when the browser is refreshed (assuming that the local development server from step 3 is up and running).
+5) Ask gulp to watch for changes to any of the .scss files. On change, [gulp](http://gulpjs.com/) will update the project's stylesheet (`app/static/css/main.css`) and the changes will be reflected when the browser is refreshed (assuming that the local development server from step 3 is up and running).
 ```
 $ gulp
 ```
