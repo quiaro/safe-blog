@@ -12,7 +12,7 @@ class Blog(AuthenticatedHandler):
         edit_post='edit_post',
         delete_post='delete_post',
         view_post='view_post',
-        modify_post='modify_post',
+        post_comment='post_comment',
     )
 
     @staticmethod
@@ -44,9 +44,9 @@ class Blog(AuthenticatedHandler):
 
             webapp2.Route(r'/blog/<post_id>',
                           handler=Blog,
-                          handler_method='modify_post',
+                          handler_method='post_comment',
                           methods=['POST'],
-                          name=Blog.routes.get('modify_post')),
+                          name=Blog.routes.get('post_comment')),
         ]
 
     def home(self):
@@ -61,41 +61,74 @@ class Blog(AuthenticatedHandler):
                               view_post_fn=view_post_fn,
                               new_post=self.uri_for(Blog.routes.get('new_post')))
 
-    def view_post(self, post_id=None, **kwds):
-        post = BlogPost.by_id(int(post_id))
+    def get_favorite_value(self, user, post, new_favorite_value):
+        """
+            Sets/unsets a post as favorited by a user per 'new_favorite_value'
+            which can be a string equal to 'true' or 'false'. If
+            'new_favorite_value' is not set, then the DB is queried to find the
+            existing value.
+        """
+        if new_favorite_value:
+            if new_favorite_value == 'true':
+                user.add_favorite(post)
+                is_favorite = True
+            else:
+                user.remove_favorite(post)
+                is_favorite = False
+            # Save the updated favorite list for the user
+            user.put()
+        else:
+            is_favorite = user.likes(post)
+        return is_favorite
+
+    def render_read_post(self, user, post, new_comment={}):
+        """
+            Determines which template to show when reading a post. There are
+            certain differences (e.g. ability to edit the post, liking a post)
+            depending on whether the user is the post owner or not.
+        """
+        edit_post = is_favorite = None;
+
+        if post.owner == user.key:
+            template = 'blog/read-post-by-owner.html'
+            edit_post = self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id())
+        else:
+            template = 'blog/read-post-by-other.html'
+            # If a user likes a blog post, this change will come in the form of
+            # a query param "favorite".
+            is_favorite = self.get_favorite_value(user, post, self.request.GET.get('favorite'))
+
+        self.render_internal(template,
+                            post=post,
+                            comments=post.comments,
+                            is_favorite=is_favorite,
+                            new_comment=new_comment,
+                            edit_post=edit_post,
+                            home=self.uri_for(Blog.routes.get('index')))
+
+    def view_post(self, post_id=None):
+        post = BlogPost.by_id(post_id)
 
         if not post:
             self.error(404)
             return
 
-        if post.owner == self.user.key:
-            self.render_internal('blog/read-post-by-owner.html',
-                                  post=post,
-                                  home=self.uri_for(Blog.routes.get('index')),
-                                  edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
+        self.render_read_post(self.user, post)
+
+    def post_comment(self, post_id=None):
+        post = BlogPost.by_id(post_id)
+
+        if not post:
+            self.error(404)
+            return
+
+        new_comment = self.request.get('new-comment')
+        if new_comment:
+            post.add_comment(self.user, new_comment)
+            post.put()
+            self.redirect_to(Blog.routes.get('view_post'), post_id=post_id)
         else:
-            # If a user likes a blog post, this change will come in the form of
-            # a query param "favorite" with the possible values being "true" or
-            # "false"
-            favorite_value = self.request.GET.get('favorite')
-
-            if favorite_value:
-                if favorite_value == 'true':
-                    self.user.add_favorite(post)
-                    is_favorite = True
-                else:
-                    self.user.remove_favorite(post)
-                    is_favorite = False
-                # Save the updated favorite list for the user
-                self.user.put()
-            else:
-                is_favorite = self.user.likes(post)
-
-            self.render_internal('blog/read-post-by-other.html',
-                                  post=post,
-                                  is_favorite=is_favorite,
-                                  home=self.uri_for(Blog.routes.get('index')))
-
-    def modify_post(self, post_id=None):
-        print 'modify_post'
-        pass
+            new_comment = {
+                error: "Please type in a comment before submitting."
+            }
+            self.render_read_post(self.user, post, new_comment)

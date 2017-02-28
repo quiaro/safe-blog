@@ -1,0 +1,10 @@
+<div class="post-comment">
+  <div class="comment-heading">
+    <span class="comment-by">Posted by: {{c.user.get().username}}</span>
+    <span class="comment-date">On: {{c.created.strftime("%b %d, %Y")}}</span>
+  </div>
+
+  <div class="comment-content">
+    {{c._render_text | safe}}
+  </div>
+</div>

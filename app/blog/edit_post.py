@@ -6,7 +6,7 @@ from app.models.blogpost import BlogPost
 class EditPost(AuthenticatedHandler):
 
     def get(self, post_id=None):
-        post = BlogPost.by_id(int(post_id))
+        post = BlogPost.by_id(post_id)
 
         if not post:
             self.error(404)
@@ -23,7 +23,7 @@ class EditPost(AuthenticatedHandler):
                               home=self.uri_for(Blog.routes.get('view_post'), post_id=post_id))
 
     def post(self, post_id=None):
-        post = BlogPost.by_id(int(post_id))
+        post = BlogPost.by_id(post_id)
 
         if not post:
             self.error(404)

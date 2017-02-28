@@ -39,11 +39,12 @@
 }
 
 #read-post {
-    margin: 30px 0;
+    margin: 30px auto 0;
+    width: 100vw;
 
     .blog-post {
         .post-title {
-            font-size: 1.6em;
+            font-size: 1.8em;
         }
     }
 
@@ -64,6 +65,33 @@
                 outline:0;
             }
         }
+    }
+
+    .comments {
+        margin-top: 15px;
+        border-top: 1px solid $subtle-gray;
+
+        h2 {
+            font-size: 1.6em;
+            font-weight: normal;
+            margin-top: 15px;
+        }
+    }
+
+    #new-comment-form {
+        margin: 15px 0;
+
+        textarea {
+            height: 8em;
+            resize: vertical;
+        }
+    }
+
+    @media only screen and (min-width: $screen-sm) {
+        width: 80vw;
+    }
+    @media only screen and (min-width: $screen-md) {
+        max-width: 800px;
     }
 }
 

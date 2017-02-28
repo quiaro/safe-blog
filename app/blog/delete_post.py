@@ -6,7 +6,7 @@ from app.models.blogpost import BlogPost
 class DeletePost(AuthenticatedHandler):
 
     def get(self, post_id=None):
-        post = BlogPost.by_id(int(post_id))
+        post = BlogPost.by_id(post_id)
 
         if not post:
             self.error(404)
@@ -20,7 +20,7 @@ class DeletePost(AuthenticatedHandler):
                              edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id()))
 
     def post(self, post_id=None):
-        post = BlogPost.by_id(int(post_id))
+        post = BlogPost.by_id(post_id)
 
         if not post:
             self.error(404)

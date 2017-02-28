@@ -5824,9 +5824,10 @@ footer {
   resize: vertical; }
 
 #read-post {
-  margin: 30px 0; }
+  margin: 30px auto 0;
+  width: 100vw; }
   #read-post .blog-post .post-title {
-    font-size: 1.6em; }
+    font-size: 1.8em; }
   #read-post #like-form {
     margin-top: 15px; }
     #read-post #like-form span {
@@ -5838,6 +5839,24 @@ footer {
       vertical-align: top; }
       #read-post #like-form button:focus {
         outline: 0; }
+  #read-post .comments {
+    margin-top: 15px;
+    border-top: 1px solid #ddd; }
+    #read-post .comments h2 {
+      font-size: 1.6em;
+      font-weight: normal;
+      margin-top: 15px; }
+  #read-post #new-comment-form {
+    margin: 15px 0; }
+    #read-post #new-comment-form textarea {
+      height: 8em;
+      resize: vertical; }
+  @media only screen and (min-width: 768px) {
+    #read-post {
+      width: 80vw; } }
+  @media only screen and (min-width: 992px) {
+    #read-post {
+      max-width: 800px; } }
 
 #delete-post .modal {
   display: block; }
