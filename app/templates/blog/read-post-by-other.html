@@ -10,11 +10,27 @@
 {% endblock %}
 
 {% block main_content %}
-    <div id='read-post' class="container">
-        <div class='row'>
+    <div id="read-post" class="container">
+        <div class="row">
             <div class='col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8'>
                 {{post.render() | safe}}
             </div>
+        </div>
+        <div class='row'>
+            <form class='col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8' id="like-form" method="get">
+                <span>Did you like this article?</span>
+                {% if is_favorite %}
+                <input type='hidden' name="favorite" value="false" />
+                <button type="submit">
+                    <i class="glyphicon glyphicon-heart" aria-hidden="true"></i>
+                </button>
+                {% else %}
+                <input type='hidden' name="favorite" value="true" />
+                <button type="submit">
+                    <i class="glyphicon glyphicon-heart-empty" aria-hidden="true"></i>
+                </button>
+                {% endif %}
+            </form>
         </div>
     </div>
 {% endblock %}

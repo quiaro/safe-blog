@@ -19,7 +19,7 @@ class NewPost(AuthenticatedHandler):
         if subject and content:
             p = BlogPost.create(subject, content, self.user.key)
             p.put()
-            self.redirect_to(Blog.routes.get('show_post'), post_id=p.key.id())
+            self.redirect_to(Blog.routes.get('view_post'), post_id=p.key.id())
         else:
             error = "Subject and content fields are required."
             post = {

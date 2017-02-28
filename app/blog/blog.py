@@ -11,7 +11,7 @@ class Blog(AuthenticatedHandler):
         new_post='new_post',
         edit_post='edit_post',
         delete_post='delete_post',
-        show_post='show_post',
+        view_post='view_post',
         modify_post='modify_post',
     )
 
@@ -38,9 +38,9 @@ class Blog(AuthenticatedHandler):
 
             webapp2.Route(r'/blog/<post_id>',
                           handler=Blog,
-                          handler_method='show_post',
+                          handler_method='view_post',
                           methods=['GET'],
-                          name=Blog.routes.get('show_post')),
+                          name=Blog.routes.get('view_post')),
 
             webapp2.Route(r'/blog/<post_id>',
                           handler=Blog,
@@ -53,7 +53,7 @@ class Blog(AuthenticatedHandler):
         my_posts = BlogPost.created_by(self.user)
         other_posts = BlogPost.not_created_by(self.user)
         edit_post_fn = lambda p: self.uri_for(Blog.routes.get('edit_post'), post_id=p.key.id())
-        view_post_fn = lambda p: self.uri_for(Blog.routes.get('show_post'), post_id=p.key.id())
+        view_post_fn = lambda p: self.uri_for(Blog.routes.get('view_post'), post_id=p.key.id())
         self.render_internal('blog/home.html',
                               my_posts=my_posts,
                               other_posts=other_posts,
@@ -61,21 +61,40 @@ class Blog(AuthenticatedHandler):
                               view_post_fn=view_post_fn,
                               new_post=self.uri_for(Blog.routes.get('new_post')))
 
-    def show_post(self, post_id=None):
+    def view_post(self, post_id=None, **kwds):
         post = BlogPost.by_id(int(post_id))
-        if post:
-            if post.owner == self.user.key:
-                self.render_internal('blog/read-post-by-owner.html',
-                                      post=post,
-                                      home=self.uri_for(Blog.routes.get('index')),
-                                      edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
-            else:
-                self.render_internal('blog/read-post-by-other.html',
-                                      post=post,
-                                      home=self.uri_for(Blog.routes.get('index')))
-        else:
+
+        if not post:
             self.error(404)
             return
+
+        if post.owner == self.user.key:
+            self.render_internal('blog/read-post-by-owner.html',
+                                  post=post,
+                                  home=self.uri_for(Blog.routes.get('index')),
+                                  edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post_id))
+        else:
+            # If a user likes a blog post, this change will come in the form of
+            # a query param "favorite" with the possible values being "true" or
+            # "false"
+            favorite_value = self.request.GET.get('favorite')
+
+            if favorite_value:
+                if favorite_value == 'true':
+                    self.user.add_favorite(post)
+                    is_favorite = True
+                else:
+                    self.user.remove_favorite(post)
+                    is_favorite = False
+                # Save the updated favorite list for the user
+                self.user.put()
+            else:
+                is_favorite = self.user.likes(post)
+
+            self.render_internal('blog/read-post-by-other.html',
+                                  post=post,
+                                  is_favorite=is_favorite,
+                                  home=self.uri_for(Blog.routes.get('index')))
 
     def modify_post(self, post_id=None):
         print 'modify_post'

@@ -5827,6 +5827,17 @@ footer {
   margin: 30px 0; }
   #read-post .blog-post .post-title {
     font-size: 1.6em; }
+  #read-post #like-form {
+    margin-top: 15px; }
+    #read-post #like-form span {
+      line-height: 2em; }
+    #read-post #like-form button {
+      font-size: 1.6em;
+      background-color: transparent;
+      border: 0 none;
+      vertical-align: top; }
+      #read-post #like-form button:focus {
+        outline: 0; }
 
 #delete-post .modal {
   display: block; }

@@ -28,6 +28,17 @@ class User(ndb.Model):
     username = ndb.StringProperty(required=True)
     pw_hash = ndb.StringProperty(indexed=False, required=True)
     email = ndb.StringProperty(indexed=False)
+    favorite_posts = ndb.KeyProperty(kind="BlogPost", repeated=True)
+
+    def likes(self, post):
+        return post.key in self.favorite_posts
+
+    def add_favorite(self, post):
+        return self.favorite_posts.append(post.key)
+
+    def remove_favorite(self, post):
+        if post.key in self.favorite_posts:
+            return self.favorite_posts.remove(post.key)
 
     @classmethod
     def by_username(cls, username, group='default'):
