@@ -1,0 +1,16 @@
+<div class='comments'>
+    <h2>Comments</h2>
+
+    {% if comments %}
+    <ul>
+        {% for c in comments %}
+            <li class="row">
+                {{c.render(user) | safe}}
+            </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <!-- form to post a new comment -->
+    {% include 'partials/new-comment.html' %}
+</div>

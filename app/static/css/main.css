@@ -5846,6 +5846,21 @@ footer {
       font-size: 1.6em;
       font-weight: normal;
       margin-top: 15px; }
+    #read-post .comments ul {
+      margin: 0;
+      padding: 0;
+      list-style: none; }
+      #read-post .comments ul li {
+        padding-bottom: 10px; }
+        #read-post .comments ul li:first-child {
+          padding-top: 10px; }
+    #read-post .comments .align-right {
+      text-align: right; }
+    #read-post .comments .post-comment .comment-heading span {
+      display: block; }
+    #read-post .comments .post-comment .comment-heading .comment-date {
+      padding-top: 2px;
+      font-size: 0.8em; }
   #read-post #new-comment-form {
     margin: 15px 0; }
     #read-post #new-comment-form textarea {
@@ -5856,7 +5871,7 @@ footer {
       width: 80vw; } }
   @media only screen and (min-width: 992px) {
     #read-post {
-      max-width: 800px; } }
+      max-width: 860px; } }
 
 #delete-post .modal {
   display: block; }

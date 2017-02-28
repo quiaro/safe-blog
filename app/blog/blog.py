@@ -129,6 +129,6 @@ class Blog(AuthenticatedHandler):
             self.redirect_to(Blog.routes.get('view_post'), post_id=post_id)
         else:
             new_comment = {
-                error: "Please type in a comment before submitting."
+                'error': "Please type in a comment before submitting."
             }
             self.render_read_post(self.user, post, new_comment)

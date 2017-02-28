@@ -14,7 +14,11 @@ class Comment(ndb.Model):
     content = ndb.TextProperty(required=True)
     created = ndb.DateTimeProperty(auto_now_add=True)
 
-    def render(self):
+    def render(self, user):
+        if self.user == user.key:
+            self._username = 'you'
+        else:
+            self._username = self.user.get().username
         self._render_text = self.content.replace('\n', '<br>')
         return TemplateRenderer.render("blog/comment.html", c=self)
 

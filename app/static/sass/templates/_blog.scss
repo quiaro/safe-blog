@@ -76,6 +76,33 @@
             font-weight: normal;
             margin-top: 15px;
         }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            li {
+                padding-bottom: 10px;
+
+                &:first-child {
+                    padding-top: 10px;
+                }
+            }
+        }
+        .align-right {
+            text-align: right;
+        }
+        .post-comment {
+            .comment-heading {
+                span {
+                    display: block;
+                }
+                .comment-date {
+                    padding-top: 2px;
+                    font-size: 0.8em;
+                }
+            }
+        }
     }
 
     #new-comment-form {
@@ -91,7 +118,7 @@
         width: 80vw;
     }
     @media only screen and (min-width: $screen-md) {
-        max-width: 800px;
+        max-width: 860px;
     }
 }
 
