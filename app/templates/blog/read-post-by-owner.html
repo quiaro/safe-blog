@@ -12,10 +12,10 @@
 
 {% block main_content %}
     <div id='read-post' class="container">
-        <div class='row'>
-            <div class='col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8'>
-                {{post.render() | safe}}
-            </div>
-        </div>
+
+        {{post.render() | safe}}
+
+        <!-- list of comments and form to post a new comment -->
+        {% include 'partials/comments.html' %}
     </div>
 {% endblock %}
