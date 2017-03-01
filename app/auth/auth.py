@@ -113,7 +113,9 @@ class Auth(RequestHandler):
             self._grant_access(user)
 
     def process_signup(self):
-        username = self.request.get('username')
+        # Username field will be converted to lowercase and stripped off
+        # whitespace
+        username = self.request.get('username').lower().strip()
         password = self.request.get('password')
         verify = self.request.get('verify')
         email = self.request.get('email')
@@ -128,12 +130,12 @@ class Auth(RequestHandler):
                 form_data['errors']['general'] = 'Unable to save entity. Please try again or contact your system administrator.'
             else:
                 self._grant_access(user)
-
-        # If there was an error, redirect back to this module's index route.
-        # Store errors in the app registry so that they persist after the
-        # redirect to display them.
-        self.app.registry[Auth.signup_key] = form_data
-        return self.redirect_to(AuthConst.ROUTE_INDEX)
+        else:
+            # If there was an error, redirect back to this module's index route.
+            # Store errors in the app registry so that they persist after the
+            # redirect to display them.
+            self.app.registry[Auth.signup_key] = form_data
+            return self.redirect_to(AuthConst.ROUTE_INDEX)
 
     def login(self):
         login_data = self.app.registry.get(Auth.login_key)

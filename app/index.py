@@ -14,4 +14,4 @@ class Index(RequestHandler):
             # if already authorized, redirect to default_route_internal
             self.redirect_to(self.app.config.get('default_route_internal'))
         else:
-            self.redirect(self.app.config.get('default_route_external'))
+            self.redirect_to(self.app.config.get('default_route_external'))
