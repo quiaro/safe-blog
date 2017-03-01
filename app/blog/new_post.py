@@ -10,7 +10,7 @@ class NewPost(AuthenticatedHandler):
         self.render_internal('blog/update-post.html',
                              post=post,
                              is_editing=False,
-                             home=self.uri_for(Blog.routes.get('index')))
+                             home=self.uri_for('blog_index'))
 
     def post(self):
         subject = self.request.get('subject')
@@ -19,7 +19,7 @@ class NewPost(AuthenticatedHandler):
         if subject and content:
             p = BlogPost.create(subject, content, self.user.key)
             p.put()
-            self.redirect_to(Blog.routes.get('view_post'), post_id=p.key.id())
+            self.redirect_to('blog_view_post', post_id=p.key.id())
         else:
             error = "Subject and content fields are required."
             post = {
@@ -30,4 +30,4 @@ class NewPost(AuthenticatedHandler):
                         post=post,
                         is_editing=False,
                         error=error,
-                        home=self.uri_for(Blog.routes.get('index')))
+                        home=self.uri_for('blog_index'))

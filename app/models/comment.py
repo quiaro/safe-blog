@@ -14,7 +14,7 @@ class Comment(ndb.Model):
     def render(self, user):
         if self.user == user.key:
             self._username = 'you'
-            template = 'blog/comment-by-author.html'
+            template = 'blog/comment-by-owner.html'
         else:
             self._username = self.user.get().username
             template = 'blog/comment.html'

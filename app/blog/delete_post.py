@@ -17,7 +17,7 @@ class DeletePost(AuthenticatedHandler):
 
         self.render_internal('blog/delete-post.html',
                              post=post,
-                             edit_post=self.uri_for(Blog.routes.get('edit_post'), post_id=post.key.id()))
+                             edit_post=self.uri_for('blog_edit_post', post_id=post.key.id()))
 
     def post(self, post_id=None):
         post = BlogPost.by_id(post_id)
@@ -30,4 +30,4 @@ class DeletePost(AuthenticatedHandler):
             return
 
         post.key.delete()
-        self.redirect_to(Blog.routes.get('index'))
+        self.redirect_to('blog_index')

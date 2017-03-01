@@ -19,8 +19,8 @@ class EditPost(AuthenticatedHandler):
         self.render_internal('blog/update-post.html',
                               post=post,
                               is_editing=True,
-                              delete_post=self.uri_for(Blog.routes.get('delete_post'), post_id=post_id),
-                              home=self.uri_for(Blog.routes.get('view_post'), post_id=post_id))
+                              delete_post=self.uri_for('blog_delete_post', post_id=post_id),
+                              home=self.uri_for('blog_view_post', post_id=post_id))
 
     def post(self, post_id=None):
         post = BlogPost.by_id(post_id)
@@ -37,7 +37,7 @@ class EditPost(AuthenticatedHandler):
 
         if post.subject and post.content:
             post.put()
-            self.redirect_to(Blog.routes.get('view_post'), post_id=post.key.id())
+            self.redirect_to('blog_view_post', post_id=post.key.id())
         else:
             post_id = post.key.id()
             error = "Subject and content fields are required."
@@ -45,5 +45,5 @@ class EditPost(AuthenticatedHandler):
                         post=post,
                         is_editing=True,
                         error=error,
-                        delete_post=self.uri_for(Blog.routes.get('delete_post'), post_id=post_id),
-                        home=self.uri_for(Blog.routes.get('view_post'), post_id=post_id))
+                        delete_post=self.uri_for('blog_delete_post', post_id=post_id),
+                        home=self.uri_for('blog_view_post', post_id=post_id))

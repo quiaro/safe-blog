@@ -14,7 +14,8 @@
 {% endblock %}
 
 {% block comment_forms %}
-<form id="update-comment-form" method="post">
+<form id="update-comment-form"
+      method="post">
     <div class="form-group">
         <textarea class="form-control"
                   name="comment">{{c._render_text | safe}}</textarea>
@@ -25,7 +26,8 @@
     </div>
 </form>
 
-<form id="delete-comment-form" method="post">
+<form id="delete-comment-form"
+      method="post">
     <p>Are you sure you want to remove your comment?</p>
     <div class="form-group">
         <input class="btn btn-danger" type='submit' value="Yes, delete!" />

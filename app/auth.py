@@ -24,12 +24,6 @@ class Auth(RequestHandler):
         Manages authentication of a web app by processing sign in and
         sign up requests.
     """
-    routes = dict(
-        index='login',
-        process_login='process_login',
-        process_signup='process_signup',
-        logout='logout'
-    )
     login_key = 'login'
     signup_key = 'signup'
 
@@ -40,25 +34,25 @@ class Auth(RequestHandler):
                           handler=Auth,
                           handler_method='process_login',
                           methods=['POST'],
-                          name=Auth.routes.get('process_login')),
+                          name='auth_process_login'),
 
             webapp2.Route(r'/process-signup',
                           handler=Auth,
                           handler_method='process_signup',
                           methods=['POST'],
-                          name=Auth.routes.get('process_signup')),
+                          name='auth_process_signup'),
 
             webapp2.Route('/login',
                           handler=Auth,
                           handler_method='login',
                           methods=['GET'],
-                          name=Auth.routes.get('index')),
+                          name='auth_index'),
 
             webapp2.Route('/logout',
                           handler=Auth,
                           handler_method='logout',
                           methods=['GET'],
-                          name=Auth.routes.get('logout')),
+                          name='auth_logout'),
         ]
 
     def _validate_signup(self, username, password, verify, email):
@@ -113,7 +107,7 @@ class Auth(RequestHandler):
                 }
             }
             self.app.registry[Auth.login_key] = form_data
-            return self.redirect_to(Auth.routes.get('index'))
+            return self.redirect_to('auth_index')
         else:
             self._grant_access(user)
 
@@ -138,7 +132,7 @@ class Auth(RequestHandler):
         # Store errors in the app registry so that they persist after the
         # redirect to display them.
         self.app.registry[Auth.signup_key] = form_data
-        return self.redirect_to(Auth.routes.get('index'))
+        return self.redirect_to('auth_index')
 
     def login(self):
         login_data = self.app.registry.get(Auth.login_key)
@@ -150,8 +144,8 @@ class Auth(RequestHandler):
         }
 
         self.render('auth/login.html',
-                    process_login=self.uri_for(Auth.routes.get('process_login')),
-                    process_signup=self.uri_for(Auth.routes.get('process_signup')),
+                    process_login=self.uri_for('auth_process_login'),
+                    process_signup=self.uri_for('auth_process_signup'),
                     **data)
 
         # Clean up any errors stored in the registry
