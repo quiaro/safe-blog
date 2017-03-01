@@ -1,0 +1,11 @@
+{% extends "blog/comment.html" %}
+
+{% block comment_body %}
+<q class="comment-content col-sm-8">
+    {{c._render_text | safe}}
+</q>
+<div class="author-actions col-sm-1">
+    <button class="btn btn-primary">Edit</button>
+    <button class="btn btn-danger">Delete</button>
+</div>
+{% endblock %}

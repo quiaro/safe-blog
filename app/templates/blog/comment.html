@@ -1,10 +1,14 @@
 <div class="post-comment">
-  <div class="comment-heading col-sm-3 align-right">
-    <span class="comment-by">Posted by {{c._username}}</span>
-    <span class="comment-date">On {{c.created.strftime("%b %d, %Y")}}</span>
-  </div>
+    <div class='row'>
+        <div class="comment-heading col-sm-3 align-right">
+            <span class="comment-by">Posted by {{c._username}}</span>
+            <span class="comment-date">On {{c.created.strftime("%b %d, %Y")}}</span>
+        </div>
 
-  <q class="comment-content col-sm-9">
-    {{c._render_text | safe}}
-  </q>
+        {% block comment_body %}
+        <q class="comment-content col-sm-8">
+            {{c._render_text | safe}}
+        </q>
+        {% endblock %}
+    </div>
 </div>

@@ -4,7 +4,7 @@
     {% if comments %}
     <ul>
         {% for c in comments %}
-            <li class="row">
+            <li>
                 {{c.render(user) | safe}}
             </li>
         {% endfor %}
