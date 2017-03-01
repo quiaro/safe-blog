@@ -1,8 +1,10 @@
 import webapp2
 from google.appengine.api import namespace_manager
 
-from app.auth import Auth
+from app.auth.auth import Auth
 from app.blog.blog import Blog
+import app.auth.constants as AuthConst
+import app.blog.constants as BlogConst
 
 # Maintain a specific datastore instance defined by a namespace
 # For more information:
@@ -11,9 +13,9 @@ NAMESPACE = '__alpha__'
 namespace_manager.set_namespace(NAMESPACE)
 
 config = dict(
-            default_route_external = 'auth_index',
-            default_route_internal = 'blog_index',
-            default_route_logout   = 'auth_logout'
+            default_route_external = AuthConst.ROUTE_INDEX,
+            default_route_internal = BlogConst.ROUTE_INDEX,
+            default_route_logout   = AuthConst.ROUTE_LOGOUT
             )
 
 # Build list of all routes in the app.

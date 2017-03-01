@@ -1,0 +1,7 @@
+ROUTE_INDEX          = 'blog_index'
+ROUTE_NEW_POST       = 'blog_new_post'
+ROUTE_VIEW_POST      = 'blog_view_post'
+ROUTE_EDIT_POST      = 'blog_edit_post'
+ROUTE_DELETE_POST    = 'blog_delete_post'
+ROUTE_UPDATE_COMMENT = 'blog_update_comment'
+ROUTE_DELETE_COMMENT = 'blog_delete_comment'

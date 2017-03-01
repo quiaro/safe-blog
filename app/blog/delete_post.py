@@ -1,6 +1,7 @@
 from app.authenticated_handler import AuthenticatedHandler
 from app.blog.blog import Blog
 from app.models.blogpost import BlogPost
+import app.blog.constants as BlogConst
 
 
 class DeletePost(AuthenticatedHandler):
@@ -17,7 +18,7 @@ class DeletePost(AuthenticatedHandler):
 
         self.render_internal('blog/delete-post.html',
                              post=post,
-                             edit_post=self.uri_for('blog_edit_post', post_id=post.key.id()))
+                             edit_post=self.uri_for(BlogConst.ROUTE_EDIT_POST, post_id=post.key.id()))
 
     def post(self, post_id=None):
         post = BlogPost.by_id(post_id)
@@ -30,4 +31,4 @@ class DeletePost(AuthenticatedHandler):
             return
 
         post.key.delete()
-        self.redirect_to('blog_index')
+        self.redirect_to(BlogConst.ROUTE_INDEX)

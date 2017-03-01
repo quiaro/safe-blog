@@ -2,6 +2,7 @@ from app.authenticated_handler import AuthenticatedHandler
 from app.blog.blog import Blog
 from app.models.blogpost import BlogPost
 from app.models.comment import Comment
+import app.blog.constants as BlogConst
 
 
 class ViewPost(AuthenticatedHandler):
@@ -39,7 +40,7 @@ class ViewPost(AuthenticatedHandler):
 
         if post.owner == self.user.key:
             template = 'blog/read-post-by-owner.html'
-            edit_post = self.uri_for('blog_edit_post', post_id=post.key.id())
+            edit_post = self.uri_for(BlogConst.ROUTE_EDIT_POST, post_id=post.key.id())
         else:
             template = 'blog/read-post-by-other.html'
             # If a user likes a blog post, this change will come in the form of
@@ -52,7 +53,7 @@ class ViewPost(AuthenticatedHandler):
                             is_favorite=is_favorite,
                             new_comment=new_comment,
                             edit_post=edit_post,
-                            home=self.uri_for('blog_index'))
+                            home=self.uri_for(BlogConst.ROUTE_INDEX))
 
     def get(self, post_id=None):
         post = BlogPost.by_id(post_id)
@@ -76,7 +77,7 @@ class ViewPost(AuthenticatedHandler):
                               user=self.user.key,
                               content=comment_body)
             comment.put()
-            self.redirect_to('blog_view_post', post_id=post_id)
+            self.redirect_to(BlogConst.ROUTE_VIEW_POST, post_id=post_id)
         else:
             new_comment = {
                 'error': "Please type in a comment before submitting."
