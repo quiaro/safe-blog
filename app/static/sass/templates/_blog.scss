@@ -93,6 +93,23 @@
             text-align: right;
         }
         .post-comment {
+            position: relative;
+
+            form {
+                &.update-comment-form {
+                    textarea {
+                        height: 6em;
+                        resize: vertical;
+                    }
+                }
+                &.delete-comment-form {
+                    position: absolute;
+                    top: 0;
+                    z-index: 1;
+                    background-color: white;
+                }
+            }
+
             .comment-heading {
                 span {
                     display: block;

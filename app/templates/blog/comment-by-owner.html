@@ -2,11 +2,11 @@
 
 {% block comment_actions %}
 <div class="comment-actions">
-    <button class="btn btn-default">
+    <button class="btn btn-default edit-comment">
         <span class='visually-hidden'>Edit</span>
         <i class='glyphicon glyphicon-pencil'></i>
     </button>
-    <button class="btn btn-default">
+    <button class="btn btn-default delete-comment">
         <span class='visually-hidden'>Delete</span>
         <i class='glyphicon glyphicon-trash'></i>
     </button>
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block comment_forms %}
-<form id="update-comment-form"
+<form class="update-comment-form hidden"
       method="post"
       action="{{ uri_for(blog_routes.ROUTE_UPDATE_COMMENT, comment_str=c.key.urlsafe()) }}">
     <div class="form-group">
@@ -27,7 +27,7 @@
     </div>
 </form>
 
-<form id="delete-comment-form"
+<form class="delete-comment-form hidden"
       method="post"
       action="{{ uri_for(blog_routes.ROUTE_DELETE_COMMENT, comment_str=c.key.urlsafe()) }}">
     <p>Are you sure you want to remove your comment?</p>

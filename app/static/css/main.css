@@ -3767,13 +3767,23 @@ footer {
           padding-top: 10px; }
     #read-post .comments .align-right {
       text-align: right; }
-    #read-post .comments .post-comment .comment-heading span {
-      display: block; }
-    #read-post .comments .post-comment .comment-heading .comment-date {
-      padding-top: 2px;
-      font-size: 0.8em; }
-    #read-post .comments .post-comment .comment-actions {
-      margin-top: 8px; }
+    #read-post .comments .post-comment {
+      position: relative; }
+      #read-post .comments .post-comment form.update-comment-form textarea {
+        height: 6em;
+        resize: vertical; }
+      #read-post .comments .post-comment form.delete-comment-form {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        background-color: white; }
+      #read-post .comments .post-comment .comment-heading span {
+        display: block; }
+      #read-post .comments .post-comment .comment-heading .comment-date {
+        padding-top: 2px;
+        font-size: 0.8em; }
+      #read-post .comments .post-comment .comment-actions {
+        margin-top: 8px; }
   #read-post #new-comment-form {
     margin: 15px 0; }
     #read-post #new-comment-form textarea {
