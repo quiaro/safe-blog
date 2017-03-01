@@ -9,7 +9,7 @@ class Comment(ndb.Model):
 
     @classmethod
     def by_post(cls, post):
-        return cls.query(ancestor=post.key).fetch()
+        return cls.query(ancestor=post.key).order(Comment.created).fetch()
 
     @classmethod
     def by_string(cls, url_safe_str):
