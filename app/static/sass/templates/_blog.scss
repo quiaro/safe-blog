@@ -68,7 +68,7 @@
     }
 
     .comments {
-        margin-top: 15px;
+        margin-top: 5px;
         border-top: 1px solid $subtle-gray;
 
         h2 {
@@ -89,9 +89,6 @@
                 }
             }
         }
-        .align-right {
-            text-align: right;
-        }
         .post-comment {
             position: relative;
 
@@ -102,26 +99,42 @@
                         resize: vertical;
                     }
                 }
-                &.delete-comment-form {
-                    position: absolute;
-                    top: 0;
-                    z-index: 1;
-                    background-color: white;
-                }
             }
 
             .comment-heading {
-                span {
-                    display: block;
+                .comment-by, .comment-date {
+                    display: inline-block;
                 }
                 .comment-date {
+                    &:before {
+                        content: ' | '
+                    }
+                    margin-left: 3px;
                     padding-top: 2px;
                     font-size: 0.8em;
                 }
+                .comment-actions {
+                    margin-top: 8px;
+                }
+
+                @media only screen and (min-width: $screen-sm) {
+                    text-align: right;
+
+                    .comment-date {
+                        &:before {
+                            content: ''
+                        }
+                        margin-left: 0;
+                        padding-top: 0;
+                    }
+                }
             }
-            .comment-actions {
-                margin-top: 8px;
+            .comment-content {
+                margin-top: 10px;
             }
+        }
+        @media only screen and (min-width: $screen-sm) {
+            margin-top: 15px;
         }
     }
 

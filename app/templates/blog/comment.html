@@ -1,8 +1,9 @@
 <div class="post-comment">
     <div class='row'>
-        <div class="comment-heading col-sm-3 align-right">
+        <div class="comment-heading col-sm-3">
             <span class="comment-by">Posted by {{c._username}}</span>
             <span class="comment-date">On {{c.created.strftime("%b %d, %Y")}}</span>
+
             {% block comment_actions %} {% endblock %}
         </div>
 
