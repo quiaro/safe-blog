@@ -15,6 +15,11 @@ indexes:
   properties:
   - name: created
 
+- kind: BlogPost
+  ancestor: yes
+  properties:
+  - name: owner
+
 - kind: Comment
   ancestor: yes
   properties:

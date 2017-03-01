@@ -2,7 +2,7 @@
     <h3>New User</h3>
     <p class="intro">Please sign up to create a new account.</p>
 
-    <form id="signup-form" method="post" action="{{process_signup}}">
+    <form id="signup-form" method="post" action="{{ uri_for(auth_routes.ROUTE_PROCESS_SIGNUP) }}">
         <p class='error general text-danger'>{{signup.errors.general}}</p>
 
         <div class="form-group">

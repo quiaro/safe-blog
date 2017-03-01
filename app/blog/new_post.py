@@ -10,8 +10,7 @@ class NewPost(AuthenticatedHandler):
         post = {}
         self.render_internal('blog/update-post.html',
                              post=post,
-                             is_editing=False,
-                             home=self.uri_for(BlogConst.ROUTE_INDEX))
+                             is_editing=False)
 
     def post(self):
         subject = self.request.get('subject')
@@ -30,5 +29,4 @@ class NewPost(AuthenticatedHandler):
             self.render("blog/update-post.html",
                         post=post,
                         is_editing=False,
-                        error=error,
-                        home=self.uri_for(BlogConst.ROUTE_INDEX))
+                        error=error)

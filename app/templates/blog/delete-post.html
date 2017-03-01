@@ -15,7 +15,7 @@
                 <div class="modal-footer">
                     <form method="post">
                         <input class="btn btn-danger" type='submit' value="Delete" />
-                        <a class="btn btn-default" href="{{edit_post}}">Cancel</a>
+                        <a class="btn btn-default" href="{{ uri_for(blog_routes.ROUTE_EDIT_POST, post_id=post.key.id()) }}">Cancel</a>
                     </form>
                 </div>
             </div>

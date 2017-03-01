@@ -19,9 +19,7 @@ class EditPost(AuthenticatedHandler):
         post_id = post.key.id()
         self.render_internal('blog/update-post.html',
                               post=post,
-                              is_editing=True,
-                              delete_post=self.uri_for(BlogConst.ROUTE_DELETE_POST, post_id=post_id),
-                              home=self.uri_for(BlogConst.ROUTE_VIEW_POST, post_id=post_id))
+                              is_editing=True)
 
     def post(self, post_id=None):
         post = BlogPost.by_id(post_id)
@@ -45,6 +43,4 @@ class EditPost(AuthenticatedHandler):
             self.render("blog/update-post.html",
                         post=post,
                         is_editing=True,
-                        error=error,
-                        delete_post=self.uri_for(BlogConst.ROUTE_DELETE_POST, post_id=post_id),
-                        home=self.uri_for(BlogConst.ROUTE_VIEW_POST, post_id=post_id))
+                        error=error)

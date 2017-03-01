@@ -46,11 +46,6 @@ class Blog(AuthenticatedHandler):
     def home(self):
         my_posts = BlogPost.created_by(self.user)
         other_posts = BlogPost.not_created_by(self.user)
-        edit_post_fn = lambda p: self.uri_for(BlogConst.ROUTE_EDIT_POST, post_id=p.key.id())
-        view_post_fn = lambda p: self.uri_for(BlogConst.ROUTE_VIEW_POST, post_id=p.key.id())
         self.render_internal('blog/home.html',
                               my_posts=my_posts,
-                              other_posts=other_posts,
-                              edit_post_fn=edit_post_fn,
-                              view_post_fn=view_post_fn,
-                              new_post=self.uri_for(BlogConst.ROUTE_NEW_POST))
+                              other_posts=other_posts)

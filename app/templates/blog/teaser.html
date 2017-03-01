@@ -10,6 +10,6 @@
   </div>
 
   <div class="post-content">
-    {{p._render_text | safe}}<br><a href="{{post_link}}">Read more &gt;&gt;</a>
+    {{p._render_text | safe}}<br><a href="{{ uri_for(blog_routes.ROUTE_VIEW_POST, post_id=p.key.id()) }}">Read more &gt;&gt;</a>
   </div>
 </div>

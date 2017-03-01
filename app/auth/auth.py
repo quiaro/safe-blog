@@ -146,10 +146,7 @@ class Auth(RequestHandler):
             Auth.signup_key: signup_data if signup_data else { 'errors': {} }
         }
 
-        self.render('auth/login.html',
-                    process_login=self.uri_for(AuthConst.ROUTE_PROCESS_LOGIN),
-                    process_signup=self.uri_for(AuthConst.ROUTE_PROCESS_SIGNUP),
-                    **data)
+        self.render('auth/login.html', **data)
 
         # Clean up any errors stored in the registry
         self.app.registry[Auth.login_key] = None

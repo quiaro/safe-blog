@@ -16,9 +16,7 @@ class DeletePost(AuthenticatedHandler):
             self.error(403)
             return
 
-        self.render_internal('blog/delete-post.html',
-                             post=post,
-                             edit_post=self.uri_for(BlogConst.ROUTE_EDIT_POST, post_id=post.key.id()))
+        self.render_internal('blog/delete-post.html', post=post)
 
     def post(self, post_id=None):
         post = BlogPost.by_id(post_id)

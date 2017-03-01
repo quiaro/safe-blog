@@ -24,8 +24,7 @@ class RequestHandler(webapp2.RequestHandler):
             For authorized users, templates are expected to extend from the
             layout/internal.html template. This method is used to provide any
             template that extends from layout/internal.html with any data that
-            it requires (e.g. logout url and user entity)
+            it requires (e.g. user entity)
         """
-        kw['logout'] = self.uri_for(self.app.config.get('default_route_logout'))
         kw['user'] = self.user
         self.render(template, **kw)

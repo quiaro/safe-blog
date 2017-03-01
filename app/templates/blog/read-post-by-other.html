@@ -3,8 +3,8 @@
 {% block navigation %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <a class="btn btn-primary" href="{{home}}">View All Posts</a>
-        <a class="btn logout pull-right" href="{{logout}}">Logout</a>
+        <a class="btn btn-primary" href="{{ uri_for(blog_routes.ROUTE_INDEX) }}">View All Posts</a>
+        <a class="btn logout pull-right" href="{{ uri_for(auth_routes.ROUTE_LOGOUT) }}">Logout</a>
     </div>
 </nav>
 {% endblock %}

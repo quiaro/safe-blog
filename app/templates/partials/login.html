@@ -2,7 +2,7 @@
     <h3>Registered User</h3>
     <p class="intro">Welcome back! Please sign in with your credentials.</p>
 
-    <form id="login-form" method="post" action="{{process_login}}">
+    <form id="login-form" method="post" action="{{ uri_for(auth_routes.ROUTE_PROCESS_LOGIN) }}">
         <p class='error general text-danger'>{{login.errors.general}}</p>
 
         <div class="form-group">

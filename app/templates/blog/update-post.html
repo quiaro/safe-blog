@@ -4,7 +4,8 @@
     {% if is_editing %}
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-            <a class="btn btn-danger" href="{{delete_post}}">Delete Post</a>
+            <a class="btn btn-danger"
+               href="{{ uri_for(blog_routes.ROUTE_DELETE_POST, post_id=post.key.id()) }}">Delete Post</a>
         </div>
     </nav>
     {% endif %}
@@ -44,7 +45,15 @@
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <button type="submit" class="btn btn-primary">Submit</button>
-                  <a type="button" class="btn btn-default" href={{home}}>Cancel</a>
+                  {% if is_editing %}
+                  <a type="button"
+                     class="btn btn-default"
+                     href="{{ uri_for(blog_routes.ROUTE_VIEW_POST, post_id=post.key.id()) }}">Cancel</a>
+                  {% else %}
+                  <a type="button"
+                     class="btn btn-default"
+                     href="{{ uri_for(blog_routes.ROUTE_INDEX) }}">Cancel</a>
+                  {% endif %}
                 </div>
               </div>
             </form>

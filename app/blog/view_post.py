@@ -40,7 +40,6 @@ class ViewPost(AuthenticatedHandler):
 
         if post.owner == self.user.key:
             template = 'blog/read-post-by-owner.html'
-            edit_post = self.uri_for(BlogConst.ROUTE_EDIT_POST, post_id=post.key.id())
         else:
             template = 'blog/read-post-by-other.html'
             # If a user likes a blog post, this change will come in the form of
@@ -51,9 +50,7 @@ class ViewPost(AuthenticatedHandler):
                             post=post,
                             comments=comments,
                             is_favorite=is_favorite,
-                            new_comment=new_comment,
-                            edit_post=edit_post,
-                            home=self.uri_for(BlogConst.ROUTE_INDEX))
+                            new_comment=new_comment)
 
     def get(self, post_id=None):
         post = BlogPost.by_id(post_id)
