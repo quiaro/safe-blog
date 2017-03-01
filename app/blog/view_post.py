@@ -36,7 +36,7 @@ class ViewPost(AuthenticatedHandler):
             depending on whether the user is the post owner or not.
         """
         edit_post = is_favorite = None
-        comments = Comment.by_post(post)
+        comments = Comment.by_post(post).order(Comment.created)
 
         if post.owner == self.user.key:
             template = 'blog/read-post-by-owner.html'
