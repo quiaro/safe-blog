@@ -5543,6 +5543,16 @@ body {
 header dt {
   font-weight: normal; }
 
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; }
+
 /* ============================================================
    Header includes the logo, title and social media links
    ============================================================ */
@@ -5861,6 +5871,8 @@ footer {
     #read-post .comments .post-comment .comment-heading .comment-date {
       padding-top: 2px;
       font-size: 0.8em; }
+    #read-post .comments .post-comment .comment-actions {
+      margin-top: 8px; }
   #read-post #new-comment-form {
     margin: 15px 0; }
     #read-post #new-comment-form textarea {

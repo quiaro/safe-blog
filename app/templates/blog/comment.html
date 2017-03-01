@@ -3,12 +3,14 @@
         <div class="comment-heading col-sm-3 align-right">
             <span class="comment-by">Posted by {{c._username}}</span>
             <span class="comment-date">On {{c.created.strftime("%b %d, %Y")}}</span>
+            {% block comment_actions %} {% endblock %}
         </div>
 
-        {% block comment_body %}
-        <q class="comment-content col-sm-8">
-            {{c._render_text | safe}}
-        </q>
-        {% endblock %}
+        <div class='comment-content col-sm-9'>
+            <q>
+                {{c._render_text | safe}}
+            </q>
+            {% block comment_forms %} {% endblock %}
+        </div>
     </div>
 </div>
