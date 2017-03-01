@@ -32,12 +32,12 @@ class Blog(AuthenticatedHandler):
                           handler='app.blog.delete_post.DeletePost',
                           name=BlogConst.ROUTE_DELETE_POST),
 
-            webapp2.Route(r'/blog/<post_id>/comment/<comment_id>/update',
+            webapp2.Route(r'/comment/<comment_str>/update',
                           handler='app.blog.comment.Comment:update',
                           methods=['POST'],
                           name=BlogConst.ROUTE_UPDATE_COMMENT),
 
-            webapp2.Route(r'/blog/<post_id>/comment/<comment_id>/delete',
+            webapp2.Route(r'/comment/<comment_str>/delete',
                           handler='app.blog.comment.Comment:delete',
                           methods=['POST'],
                           name=BlogConst.ROUTE_DELETE_COMMENT),

@@ -2,6 +2,9 @@ import os
 import jinja2
 import webapp2
 
+import app.auth.constants as AuthConst
+import app.blog.constants as BlogConst
+
 
 class TemplateRenderer:
 
@@ -9,7 +12,9 @@ class TemplateRenderer:
     jinja_env = jinja2.Environment(loader=jinja2.FileSystemLoader(template_path),
                                    autoescape=True)
     jinja_env.globals = {
-        'uri_for': webapp2.uri_for
+        'uri_for': webapp2.uri_for,
+        'auth_routes': AuthConst,
+        'blog_routes': BlogConst
     }
 
     @classmethod

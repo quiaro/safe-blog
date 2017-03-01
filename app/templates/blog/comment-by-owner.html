@@ -15,7 +15,8 @@
 
 {% block comment_forms %}
 <form id="update-comment-form"
-      method="post">
+      method="post"
+      action="{{ uri_for(blog_routes.ROUTE_UPDATE_COMMENT, comment_str=c.key.urlsafe()) }}">
     <div class="form-group">
         <textarea class="form-control"
                   name="comment">{{c._render_text | safe}}</textarea>
@@ -27,7 +28,8 @@
 </form>
 
 <form id="delete-comment-form"
-      method="post">
+      method="post"
+      action="{{ uri_for(blog_routes.ROUTE_DELETE_COMMENT, comment_str=c.key.urlsafe()) }}">
     <p>Are you sure you want to remove your comment?</p>
     <div class="form-group">
         <input class="btn btn-danger" type='submit' value="Yes, delete!" />

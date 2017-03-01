@@ -11,6 +11,15 @@ class Comment(ndb.Model):
     def by_post(cls, post):
         return cls.query(ancestor=post.key).fetch()
 
+    @classmethod
+    def by_string(cls, url_safe_str):
+        comment_key = ndb.Key(urlsafe=url_safe_str)
+        return comment_key.get()
+
+    def get_post_id(self):
+        """ Get post ID of the post the comment belongs to """
+        return self.key.parent().id()
+
     def render(self, user):
         if self.user == user.key:
             self._username = 'you'
