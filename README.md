@@ -3,7 +3,7 @@ Safe Blog
 
 Multi-user blogging platform for authorized users only.
 
-Users register/sign in to have the ability to create/edits posts, give feedback and comment on other users's posts. All blog posts are public and can be viewed from the project's home page, but users's cannot interact with the posts until they've signed in.
+Users must register/sign in to have the ability to create/edits posts, give feedback and comment on other users's posts.
 
 This project delivers a simple and responsive user interface supported by [Bootstrap](http://getbootstrap.com/), and it is configured for deployment on Google App Engine. It makes use of the [wepapp2 framework](http://webapp2.readthedocs.io/en/latest/), the template library [Jinja2](http://jinja.pocoo.org/docs/2.9/) and [Google Cloud Datastore](https://cloud.google.com/appengine/docs/standard/python/datastore/) for storing and managing data. It supports **Python v2.7.10** and **Google Cloud SDK v143.0.1**.
 
@@ -29,7 +29,7 @@ $ cd safe-blog
 $ dev_appserver.py .
 ```
 
-This project uses the CSS language extension Sass, which makes it easier to change the look of the app during development. If you wish to make changes to any of the stylesheets and see the changes applied with every browser refresh, you will need to follow 2 additional steps:
+This project uses the CSS language extension Sass, which makes it easier to manage and change the look of the app during development. If you wish to make changes to any of the stylesheets and see the changes applied with every browser refresh, you will need to follow 2 additional steps:
 
 4) Install gulp, gulp-autoprefixer and gulp-sass
 ```
