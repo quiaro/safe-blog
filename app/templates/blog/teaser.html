@@ -1,7 +1,7 @@
 <div class="blog-post">
   <div class="post-heading">
     <div class="post-title">
-      <a href="{{post_link}}">{{p.subject}}</a>
+      <a href="{{ uri_for(blog_routes.ROUTE_VIEW_POST, post_id=p.key.id()) }}">{{p.subject}}</a>
     </div>
 
     <div class="post-date">
