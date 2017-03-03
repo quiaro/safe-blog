@@ -3784,6 +3784,7 @@ footer {
         #read-post .comments .post-comment .comment-heading {
           text-align: right; }
           #read-post .comments .post-comment .comment-heading .comment-date {
+            display: block;
             margin-left: 0;
             padding-top: 0; }
             #read-post .comments .post-comment .comment-heading .comment-date:before {

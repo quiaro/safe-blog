@@ -1,23 +1,14 @@
 from google.appengine.ext import ndb
 
 from app.authenticated_handler import AuthenticatedHandler
-from app.models.comment import Comment as CommentModel
+from app.blog.validation import check_if_comment_is_valid
 import app.blog.constants as BlogConst
 
 
 class Comment(AuthenticatedHandler):
 
-    def update(self, comment_str=None):
-        comment = CommentModel.by_string(comment_str)
-
-        if not comment:
-            self.error(404)
-            return
-
-        if comment.user != self.user.key:
-            self.error(403)
-            return
-
+    @check_if_comment_is_valid
+    def update(self, comment_str=None, comment=None):
         comment_body = self.request.get('comment')
         post_id = comment.get_post_id()
 
@@ -29,17 +20,8 @@ class Comment(AuthenticatedHandler):
         # Back to viewing the post
         self.redirect_to(BlogConst.ROUTE_VIEW_POST, post_id=post_id)
 
-    def delete(self, comment_str=None):
-        comment = CommentModel.by_string(comment_str)
-
-        if not comment:
-            self.error(404)
-            return
-
-        if comment.user != self.user.key:
-            self.error(403)
-            return
-
+    @check_if_comment_is_valid
+    def delete(self, comment_str=None, comment=None):
         post_id = comment.get_post_id()
         comment.key.delete()
 

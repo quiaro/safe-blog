@@ -1,7 +1,7 @@
 from app.authenticated_handler import AuthenticatedHandler
 from app.blog.blog import Blog
-from app.models.blogpost import BlogPost
 from app.models.comment import Comment
+from app.blog.validation import check_if_post_exists
 import app.blog.constants as BlogConst
 
 
@@ -52,22 +52,12 @@ class ViewPost(AuthenticatedHandler):
                             is_favorite=is_favorite,
                             new_comment=new_comment)
 
-    def get(self, post_id=None):
-        post = BlogPost.by_id(post_id)
-
-        if not post:
-            self.error(404)
-            return
-
+    @check_if_post_exists
+    def get(self, post_id=None, post=None):
         self.render_post(post)
 
-    def post(self, post_id=None):
-        post = BlogPost.by_id(post_id)
-
-        if not post:
-            self.error(404)
-            return
-
+    @check_if_post_exists
+    def post(self, post_id=None, post=None):
         comment_body = self.request.get('new-comment')
         if comment_body:
             comment = Comment(parent=post.key,

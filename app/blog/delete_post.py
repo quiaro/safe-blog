@@ -1,32 +1,16 @@
 from app.authenticated_handler import AuthenticatedHandler
 from app.blog.blog import Blog
-from app.models.blogpost import BlogPost
+from app.blog.validation import check_if_post_is_valid
 import app.blog.constants as BlogConst
 
 
 class DeletePost(AuthenticatedHandler):
 
-    def get(self, post_id=None):
-        post = BlogPost.by_id(post_id)
+    @check_if_post_is_valid
+    def get(self, post_id=None, post=None):
+        self.render('blog/delete-post.html', post=post)
 
-        if not post:
-            self.error(404)
-            return
-        if post.owner != self.user.key:
-            self.error(403)
-            return
-
-        self.render_internal('blog/delete-post.html', post=post)
-
-    def post(self, post_id=None):
-        post = BlogPost.by_id(post_id)
-
-        if not post:
-            self.error(404)
-            return
-        if post.owner != self.user.key:
-            self.error(403)
-            return
-
+    @check_if_post_is_valid
+    def post(self, post_id=None, post=None):
         post.key.delete()
         self.redirect_to(BlogConst.ROUTE_INDEX)

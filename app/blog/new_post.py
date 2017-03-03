@@ -8,9 +8,9 @@ class NewPost(AuthenticatedHandler):
 
     def get(self):
         post = {}
-        self.render_internal('blog/update-post.html',
-                             post=post,
-                             is_editing=False)
+        self.render('blog/update-post.html',
+                     post=post,
+                     is_editing=False)
 
     def post(self):
         subject = self.request.get('subject')
